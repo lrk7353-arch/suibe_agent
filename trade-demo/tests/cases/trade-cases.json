@@ -1,0 +1,1472 @@
+{
+  "meta": {
+    "version": "1.0",
+    "createdAt": "2026-11-08",
+    "caseId": "TEACHING-CASE-SUIBE-2026",
+    "currency": "USD",
+    "standardCase": {
+      "quantity": 100,
+      "unitPrice": "10.00",
+      "freight": "100.00",
+      "insurance": "10.00",
+      "fx": "7.0000",
+      "dutyRate": "10.00",
+      "vatRate": "13.00",
+      "taxableValue": "7770.00",
+      "duty": "777.00",
+      "vat": "1111.11",
+      "outlay": "9658.11",
+      "perUnit": "96.58"
+    },
+    "categoryMinimums": {
+      "基础计算与人工参考结果": 6,
+      "缺参、单位及输入校验": 6,
+      "多轮修改与状态恢复": 6,
+      "报价比较与费用口径": 5,
+      "工具异常、超时及恢复": 3,
+      "解释、依据与导出一致性": 4
+    },
+    "vetoRules": [
+      "金额与人工参考结果相差 0.01 元及以上，该用例不通过。",
+      "公式、报价口径或费用重复处理错误，该用例不通过。",
+      "把含进口税费支出直接称为可确认的会计成本，该用例不通过。",
+      "把教学税率说成现实商品的现行税率，该用例不通过。",
+      "导出结果与页面当前方案或参数不一致，该用例不通过。",
+      "静默补默认值、丢失用户已填参数，该用例不通过。"
+    ]
+  },
+  "cases": [
+    {
+      "id": "A01",
+      "category": "基础计算与人工参考结果",
+      "tier": "tool_state",
+      "title": "标准教学案例一次补齐并计算",
+      "turns": [
+        "帮我算一下这批进口商品的成本。100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "referenceKey": "base",
+      "expect": {
+        "finalPhase": "calculated",
+        "scenarioCount": 1,
+        "amounts": {
+          "taxableValue": "7770.00",
+          "duty": "777.00",
+          "vat": "1111.11",
+          "outlay": "9658.11",
+          "perUnit": "96.58"
+        },
+        "answerContains": [
+          "9,658.11 元",
+          "96.58 元",
+          "不等于可确认的会计成本"
+        ],
+        "toolsInclude": [
+          "validate_trade_inputs",
+          "calculate_import_outlay"
+        ],
+        "noRawJson": true,
+        "minVersion": 3
+      },
+      "humanReference": {
+        "taxableValue": "7770.00",
+        "duty": "777.00",
+        "vat": "1111.11",
+        "outlay": "9658.11",
+        "perUnit": "96.58"
+      },
+      "veto": [
+        "金额与人工参考不一致即不通过",
+        "未标注支出不等于会计成本即不通过"
+      ]
+    },
+    {
+      "id": "A02",
+      "category": "基础计算与人工参考结果",
+      "tier": "tool_state",
+      "title": "按现场脚本分三轮补齐并计算",
+      "turns": [
+        "帮我算一下这批进口商品的成本。",
+        "100 件，每件 10 美元，FOB。",
+        "运费 100 美元、保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "referenceKey": "base",
+      "perTurn": [
+        {
+          "phase": "collecting",
+          "pendingField": "quantity"
+        },
+        {
+          "phase": "collecting",
+          "pendingField": "freight"
+        }
+      ],
+      "expect": {
+        "finalPhase": "calculated",
+        "scenarioCount": 1,
+        "amounts": {
+          "taxableValue": "7770.00",
+          "duty": "777.00",
+          "vat": "1111.11",
+          "outlay": "9658.11",
+          "perUnit": "96.58"
+        },
+        "answerContains": [
+          "9,658.11 元",
+          "96.58 元",
+          "已记录 5 项条件"
+        ],
+        "toolsInclude": [
+          "calculate_import_outlay"
+        ],
+        "noRawJson": true
+      },
+      "humanReference": {
+        "taxableValue": "7770.00",
+        "duty": "777.00",
+        "vat": "1111.11",
+        "outlay": "9658.11",
+        "perUnit": "96.58"
+      },
+      "veto": [
+        "第二轮重复追问已给出的数量或单价即不通过"
+      ]
+    },
+    {
+      "id": "A03",
+      "category": "基础计算与人工参考结果",
+      "tier": "tool_state",
+      "title": "示例值一键补齐，来源标为示例值",
+      "turns": [
+        "__example_fill__"
+      ],
+      "referenceKey": "base",
+      "expect": {
+        "finalPhase": "calculated",
+        "scenarioCount": 1,
+        "amounts": {
+          "taxableValue": "7770.00",
+          "duty": "777.00",
+          "vat": "1111.11",
+          "outlay": "9658.11",
+          "perUnit": "96.58"
+        },
+        "answerContains": [
+          "示例值",
+          "9,658.11 元"
+        ],
+        "metaSources": {
+          "A": {
+            "unitPrice": "example",
+            "freight": "example",
+            "fx": "example",
+            "dutyRate": "example"
+          }
+        },
+        "noRawJson": true
+      },
+      "humanReference": {
+        "taxableValue": "7770.00",
+        "duty": "777.00",
+        "vat": "1111.11",
+        "outlay": "9658.11",
+        "perUnit": "96.58"
+      },
+      "veto": [
+        "示例值被标成用户填写或静默默认值即不通过"
+      ]
+    },
+    {
+      "id": "A04",
+      "category": "基础计算与人工参考结果",
+      "tier": "tool_state",
+      "title": "显式零运费与零保险",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 0 美元，保险 0 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "referenceKey": "zeroFreight",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "taxableValue": "7000.00",
+          "duty": "700.00",
+          "vat": "1001.00",
+          "outlay": "8701.00",
+          "perUnit": "87.01"
+        },
+        "answerContains": [
+          "8,701.00 元",
+          "87.01 元"
+        ],
+        "scenarioValues": {
+          "A": {
+            "freight": "0.00",
+            "insurance": "0.00"
+          }
+        }
+      },
+      "humanReference": {
+        "taxableValue": "7000.00",
+        "duty": "700.00",
+        "vat": "1001.00",
+        "outlay": "8701.00",
+        "perUnit": "87.01"
+      },
+      "veto": [
+        "把显式 0 当成缺参而重复追问即不通过"
+      ]
+    },
+    {
+      "id": "A05",
+      "category": "基础计算与人工参考结果",
+      "tier": "tool_state",
+      "title": "零关税与零增值税",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 0%，增值税 0%。"
+      ],
+      "referenceKey": "zeroRates",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "taxableValue": "7770.00",
+          "duty": "0.00",
+          "vat": "0.00",
+          "outlay": "7770.00",
+          "perUnit": "77.70"
+        },
+        "answerContains": [
+          "7,770.00 元",
+          "77.70 元"
+        ],
+        "scenarioValues": {
+          "A": {
+            "dutyRate": "0.00",
+            "vatRate": "0.00"
+          }
+        }
+      },
+      "humanReference": {
+        "taxableValue": "7770.00",
+        "duty": "0.00",
+        "vat": "0.00",
+        "outlay": "7770.00",
+        "perUnit": "77.70"
+      },
+      "veto": [
+        "把 0% 税率当成缺参即不通过"
+      ]
+    },
+    {
+      "id": "A06",
+      "category": "基础计算与人工参考结果",
+      "tier": "tool_state",
+      "title": "汇率 6.90 的人工参考结果",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 6.9，关税 10%，增值税 13%。"
+      ],
+      "referenceKey": "fx69",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "taxableValue": "7659.00",
+          "duty": "765.90",
+          "vat": "1095.24",
+          "outlay": "9520.14",
+          "perUnit": "95.20"
+        },
+        "answerContains": [
+          "9,520.14 元",
+          "95.20 元"
+        ],
+        "scenarioValues": {
+          "A": {
+            "fx": "6.9000"
+          }
+        }
+      },
+      "humanReference": {
+        "taxableValue": "7659.00",
+        "duty": "765.90",
+        "vat": "1095.24",
+        "outlay": "9520.14",
+        "perUnit": "95.20"
+      },
+      "veto": [
+        "汇率方向颠倒即不通过"
+      ]
+    },
+    {
+      "id": "A07",
+      "category": "基础计算与人工参考结果",
+      "tier": "tool_state",
+      "title": "分步四舍五入产生 0.01 元差异",
+      "turns": [
+        "1 件，每件 0.05 美元，FOB，运费 0 美元，保险 0 美元，汇率 1，关税 10%，增值税 13%。"
+      ],
+      "referenceKey": "roundingEdge",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "taxableValue": "0.05",
+          "duty": "0.01",
+          "vat": "0.01",
+          "outlay": "0.07",
+          "perUnit": "0.07"
+        },
+        "trace": {
+          "duty": {
+            "raw": "0.005000",
+            "value": "0.01"
+          },
+          "vat": {
+            "raw": "0.007800",
+            "value": "0.01"
+          }
+        },
+        "answerContains": [
+          "0.07 元"
+        ],
+        "detailContains": [
+          "未舍入",
+          "0.005"
+        ]
+      },
+      "humanReference": {
+        "taxableValue": "0.05",
+        "duty": "0.01",
+        "vat": "0.01",
+        "outlay": "0.07",
+        "perUnit": "0.07"
+      },
+      "veto": [
+        "用未舍入总额 0.06 代替分步舍入结果 0.07 即不通过"
+      ]
+    },
+    {
+      "id": "A08",
+      "category": "基础计算与人工参考结果",
+      "tier": "tool_state",
+      "title": "CIF 总价直接报价",
+      "turns": [
+        "100 件，CIF 总价 1,080 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "referenceKey": "cif1080",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "goodsTotal": "1080.00",
+          "cifEquivalent": "1080.00",
+          "taxableValue": "7560.00",
+          "duty": "756.00",
+          "vat": "1081.08",
+          "outlay": "9397.08",
+          "perUnit": "93.97"
+        },
+        "answerContains": [
+          "9,397.08 元",
+          "93.97 元"
+        ],
+        "scenarioValues": {
+          "A": {
+            "priceTerm": "CIF",
+            "totalPrice": "1080.00"
+          }
+        }
+      },
+      "humanReference": {
+        "taxableValue": "7560.00",
+        "duty": "756.00",
+        "vat": "1081.08",
+        "outlay": "9397.08",
+        "perUnit": "93.97"
+      },
+      "veto": [
+        "CIF 又叠加运费或保险费即不通过"
+      ]
+    },
+    {
+      "id": "B01",
+      "category": "缺参、单位及输入校验",
+      "tier": "tool_state",
+      "title": "完全缺参时只追问，不计算",
+      "turns": [
+        "帮我算一下这批进口商品的成本。"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "scenarioCount": 1,
+        "missingFields": [
+          "quantity",
+          "priceTerm",
+          "currency",
+          "fx",
+          "dutyRate",
+          "vatRate"
+        ],
+        "answerContains": [
+          "还差",
+          "不会替你填默认值"
+        ],
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ],
+        "noRawJson": true
+      },
+      "veto": [
+        "没有参数就直接给金额即不通过",
+        "静默补默认汇率或税率即不通过"
+      ]
+    },
+    {
+      "id": "B02",
+      "category": "缺参、单位及输入校验",
+      "tier": "tool_state",
+      "title": "只追问缺失项，不重复已给参数",
+      "turns": [
+        "帮我算一下这批进口商品的成本。",
+        "100 件，每件 10 美元，FOB。"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "missingFields": [
+          "freight",
+          "insurance",
+          "fx",
+          "dutyRate",
+          "vatRate"
+        ],
+        "answerContains": [
+          "还差 5 项"
+        ],
+        "answerExcludes": [
+          "商品数量",
+          "商品单价"
+        ],
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "重复追问数量或单价即不通过",
+        "追问项多于实际缺项即不通过"
+      ]
+    },
+    {
+      "id": "B03",
+      "category": "缺参、单位及输入校验",
+      "tier": "tool_state",
+      "title": "负数量被拒绝且参数保留",
+      "turns": [
+        "-5 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "conditionErrorCodes": [
+          "quantity_not_positive"
+        ],
+        "answerContains": [
+          "必须大于 0"
+        ],
+        "scenarioValues": {
+          "A": {
+            "quantity": "-5"
+          }
+        },
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "负数量仍给出金额即不通过",
+        "删除用户输入即不通过"
+      ]
+    },
+    {
+      "id": "B04",
+      "category": "缺参、单位及输入校验",
+      "tier": "tool_state",
+      "title": "非数字运费被明确拒绝",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费很多，保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "errorCode": "not_a_number",
+        "answerContains": [
+          "需要一个数字"
+        ],
+        "scenarioValues": {
+          "A": {
+            "quantity": "100",
+            "fx": "7.0000"
+          }
+        },
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "把“很多”当成 0 或默认运费即不通过"
+      ]
+    },
+    {
+      "id": "B05",
+      "category": "缺参、单位及输入校验",
+      "tier": "tool_state",
+      "title": "非整数件数被拒绝",
+      "turns": [
+        "2.5 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "conditionErrorCodes": [
+          "quantity_not_integer"
+        ],
+        "answerContains": [
+          "整数"
+        ],
+        "scenarioValues": {
+          "A": {
+            "quantity": "2.5"
+          }
+        },
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "把 2.5 件静默取整后计算即不通过"
+      ]
+    },
+    {
+      "id": "B06",
+      "category": "缺参、单位及输入校验",
+      "tier": "tool_state",
+      "title": "把关税金额误当税率",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 777 元，增值税 13%。"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "errorCode": "rate_not_percent",
+        "answerContains": [
+          "不是关税金额",
+          "税率"
+        ],
+        "scenarioValues": {
+          "A": {
+            "fx": "7.0000",
+            "vatRate": "13.00"
+          }
+        },
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "把 777 元当成 777% 税率即不通过"
+      ]
+    },
+    {
+      "id": "B07",
+      "category": "缺参、单位及输入校验",
+      "tier": "tool_state",
+      "title": "汇率为 0 被拒绝",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 0，关税 10%，增值税 13%。"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "answerContains": [
+          "汇率",
+          "大于 0"
+        ],
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ],
+        "errorCode": "fx_not_positive",
+        "scenarioValues": {
+          "A": {
+            "fx": "0"
+          }
+        }
+      },
+      "veto": [
+        "汇率为 0 仍计算即不通过"
+      ]
+    },
+    {
+      "id": "B08",
+      "category": "缺参、单位及输入校验",
+      "tier": "tool_state",
+      "title": "FOB 同时给单价和总价",
+      "turns": [
+        "100 件，单价 10 美元，总价 1000 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "conditionErrorCodes": [
+          "term_conflict"
+        ],
+        "answerContains": [
+          "冲突"
+        ],
+        "scenarioValues": {
+          "A": {
+            "unitPrice": "10.00",
+            "totalPrice": "1000.00"
+          }
+        },
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "静默选择单价或总价之一计算即不通过"
+      ]
+    },
+    {
+      "id": "C01",
+      "category": "多轮修改与状态恢复",
+      "tier": "tool_state",
+      "title": "修改汇率保留其他参数并显示变更",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "把汇率改成 7.2"
+      ],
+      "referenceKey": "fx72",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "outlay": "9934.06",
+          "perUnit": "99.34"
+        },
+        "lastChange": {
+          "field": "fx",
+          "from": "7.0000",
+          "to": "7.2000",
+          "count": 1
+        },
+        "answerContains": [
+          "本次变更",
+          "其他参数保持不变"
+        ],
+        "scenarioValues": {
+          "A": {
+            "quantity": "100",
+            "freight": "100.00",
+            "fx": "7.2000"
+          }
+        }
+      },
+      "humanReference": {
+        "outlay": "9934.06",
+        "perUnit": "99.34"
+      },
+      "veto": [
+        "修改汇率时丢掉数量或运费即不通过"
+      ]
+    },
+    {
+      "id": "C02",
+      "category": "多轮修改与状态恢复",
+      "tier": "tool_state",
+      "title": "恢复原来的汇率，依据状态记录",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "把汇率改成 7.2",
+        "恢复原来的汇率"
+      ],
+      "referenceKey": "base",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "outlay": "9658.11",
+          "perUnit": "96.58"
+        },
+        "lastChange": {
+          "field": "fx",
+          "from": "7.2000",
+          "to": "7.0000",
+          "count": 1
+        },
+        "answerContains": [
+          "依据",
+          "7.0000"
+        ],
+        "scenarioValues": {
+          "A": {
+            "fx": "7.0000"
+          }
+        }
+      },
+      "humanReference": {
+        "outlay": "9658.11",
+        "perUnit": "96.58"
+      },
+      "veto": [
+        "恢复成未出现过的汇率即不通过"
+      ]
+    },
+    {
+      "id": "C03",
+      "category": "多轮修改与状态恢复",
+      "tier": "tool_state",
+      "title": "多个历史汇率时先确认再恢复",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "把汇率改成 7.2",
+        "把汇率改成 7.3",
+        "恢复原来的汇率",
+        "第一个"
+      ],
+      "perTurn": [
+        {},
+        {},
+        {},
+        {
+          "pendingKind": "fx_restore_choice",
+          "phase": "calculated"
+        }
+      ],
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "outlay": "9934.06",
+          "perUnit": "99.34"
+        },
+        "pendingKind": null,
+        "answerContains": [
+          "7.2000"
+        ],
+        "scenarioValues": {
+          "A": {
+            "fx": "7.2000"
+          }
+        }
+      },
+      "humanReference": {
+        "outlay": "9934.06",
+        "perUnit": "99.34"
+      },
+      "veto": [
+        "有歧义时直接猜一个历史汇率即不通过"
+      ]
+    },
+    {
+      "id": "C04",
+      "category": "多轮修改与状态恢复",
+      "tier": "tool_state",
+      "title": "一次修改汇率和数量两个参数",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "把汇率改成 7.2，数量改成 200 件"
+      ],
+      "referenceKey": "qty200fx72",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "outlay": "18883.66",
+          "perUnit": "94.42"
+        },
+        "lastChange": {
+          "count": 2
+        },
+        "scenarioValues": {
+          "A": {
+            "quantity": "200",
+            "fx": "7.2000"
+          }
+        },
+        "answerContains": [
+          "18,883.66 元",
+          "94.42 元"
+        ]
+      },
+      "humanReference": {
+        "outlay": "18883.66",
+        "perUnit": "94.42"
+      },
+      "veto": [
+        "只应用其中一个修改即不通过"
+      ]
+    },
+    {
+      "id": "C05",
+      "category": "多轮修改与状态恢复",
+      "tier": "tool_state",
+      "title": "校园问题暂停经贸流程，返回后恢复案例",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "图书馆借阅规则是什么？",
+        "继续刚才的进口案例"
+      ],
+      "perTurn": [
+        {},
+        {
+          "phase": "paused"
+        }
+      ],
+      "expect": {
+        "finalPhase": "calculated",
+        "scenarioCount": 1,
+        "amounts": {
+          "outlay": "9658.11"
+        },
+        "answerContains": [
+          "我们回到",
+          "9,658.11 元"
+        ]
+      },
+      "veto": [
+        "校园问题清空经贸状态即不通过",
+        "恢复后重新追问已填参数即不通过"
+      ]
+    },
+    {
+      "id": "C06",
+      "category": "多轮修改与状态恢复",
+      "tier": "tool_state",
+      "title": "用户取消后清空案例",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "取消"
+      ],
+      "expect": {
+        "finalPhase": "idle",
+        "scenarioCount": 0,
+        "amounts": null,
+        "answerContains": [
+          "已结束"
+        ],
+        "noRawJson": true
+      },
+      "veto": [
+        "取消后仍保留方案或金额即不通过"
+      ]
+    },
+    {
+      "id": "C07",
+      "category": "多轮修改与状态恢复",
+      "tier": "tool_state",
+      "title": "用裸数字回答上一轮追问",
+      "turns": [
+        "帮我算一下这批进口商品的成本。",
+        "100"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "scenarioValues": {
+          "A": {
+            "quantity": "100",
+            "quantityUnit": "件"
+          }
+        },
+        "pendingField": "priceTerm",
+        "allToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "裸数字被忽略或误填到汇率即不通过"
+      ]
+    },
+    {
+      "id": "C08",
+      "category": "多轮修改与状态恢复",
+      "tier": "tool_state",
+      "title": "切换方案后修改参数不串用",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CIF 总价 1,080 美元，其他条件一样，哪个支出更低？",
+        "把汇率改成 7.2"
+      ],
+      "referenceKey": "cif1080fx72",
+      "expect": {
+        "finalPhase": "calculated",
+        "scenarioOutlays": {
+          "A": "9658.11",
+          "B": "9665.57"
+        },
+        "scenarioValues": {
+          "A": {
+            "fx": "7.0000"
+          },
+          "B": {
+            "fx": "7.2000"
+          }
+        },
+        "comparisonOk": false,
+        "comparisonCode": "incomparable",
+        "answerContains": [
+          "9,665.57 元"
+        ]
+      },
+      "humanReference": {
+        "outlay": "9665.57",
+        "perUnit": "96.66"
+      },
+      "veto": [
+        "修改方案 B 的汇率却改动方案 A 即不通过"
+      ]
+    },
+    {
+      "id": "D01",
+      "category": "报价比较与费用口径",
+      "tier": "tool_state",
+      "title": "FOB 与 CIF 同口径比较",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CIF 总价 1,080 美元，其他条件一样，哪个支出更低？"
+      ],
+      "referenceKey": "cif1080",
+      "expect": {
+        "finalPhase": "comparing",
+        "scenarioCount": 2,
+        "amounts": {
+          "outlay": "9397.08",
+          "perUnit": "93.97"
+        },
+        "comparisonOk": true,
+        "cheaperId": "B",
+        "diff": "-261.03",
+        "sameScope": true,
+        "answerContains": [
+          "方案 B 更低",
+          "261.03 元",
+          "统一为 CIF 等值口径"
+        ],
+        "export": null
+      },
+      "humanReference": {
+        "outlay": "9397.08",
+        "perUnit": "93.97"
+      },
+      "veto": [
+        "CIF 报价再叠加运费保险即不通过",
+        "差额符号或方向错误即不通过"
+      ]
+    },
+    {
+      "id": "D02",
+      "category": "报价比较与费用口径",
+      "tier": "tool_state",
+      "title": "CIF 之外又单列运费被拒绝",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CIF 总价 1,080 美元，运费 100 美元，其他条件一样"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "scenarioCount": 2,
+        "conditionErrorCodes": [
+          "included_cost_repeated"
+        ],
+        "answerContains": [
+          "不能重复叠加"
+        ],
+        "scenarioOutlays": {
+          "A": "9658.11"
+        },
+        "lastToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "CIF 仍重复叠加运费并给出金额即不通过"
+      ]
+    },
+    {
+      "id": "D03",
+      "category": "报价比较与费用口径",
+      "tier": "tool_state",
+      "title": "数量不同的方案不能直接比较差额",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CIF 总价 1,080 美元，其他条件一样，数量 200 件，哪个支出更低？"
+      ],
+      "expect": {
+        "finalPhase": "calculated",
+        "scenarioCount": 2,
+        "comparisonOk": false,
+        "comparisonCode": "incomparable",
+        "minReasons": 1,
+        "answerContains": [
+          "不在同一口径",
+          "数量"
+        ],
+        "amounts": {
+          "outlay": "9397.08",
+          "perUnit": "46.99"
+        }
+      },
+      "veto": [
+        "数量不同仍给出“哪个更低”的差额即不通过"
+      ]
+    },
+    {
+      "id": "D04",
+      "category": "报价比较与费用口径",
+      "tier": "tool_state",
+      "title": "CFR 报价另加保险费",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CFR 总价 1,080 美元，保险费 10 美元，其他条件一样"
+      ],
+      "referenceKey": "cfr1080",
+      "expect": {
+        "finalPhase": "comparing",
+        "amounts": {
+          "taxableValue": "7630.00",
+          "duty": "763.00",
+          "vat": "1091.09",
+          "outlay": "9484.09",
+          "perUnit": "94.84"
+        },
+        "comparisonOk": true,
+        "cheaperId": "B",
+        "diff": "-174.02",
+        "scenarioValues": {
+          "B": {
+            "priceTerm": "CFR",
+            "insurance": "10.00"
+          }
+        }
+      },
+      "humanReference": {
+        "taxableValue": "7630.00",
+        "duty": "763.00",
+        "vat": "1091.09",
+        "outlay": "9484.09",
+        "perUnit": "94.84"
+      },
+      "veto": [
+        "CFR 再叠加运费即不通过",
+        "漏加保险费即不通过"
+      ]
+    },
+    {
+      "id": "D05",
+      "category": "报价比较与费用口径",
+      "tier": "tool_state",
+      "title": "每件运费折算为整批运费",
+      "turns": [
+        "100 件，每件 10 美元，FOB，每件运费 1 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "referenceKey": "base",
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "outlay": "9658.11",
+          "perUnit": "96.58"
+        },
+        "scenarioValues": {
+          "A": {
+            "freight": "100.00"
+          }
+        },
+        "metaSources": {
+          "A": {
+            "freight": "derived"
+          }
+        },
+        "fieldNotes": {
+          "A": {
+            "freight": "每件 1.00"
+          }
+        }
+      },
+      "humanReference": {
+        "outlay": "9658.11",
+        "perUnit": "96.58"
+      },
+      "veto": [
+        "把每件运费 1 美元当成整批 1 美元即不通过"
+      ]
+    },
+    {
+      "id": "D06",
+      "category": "报价比较与费用口径",
+      "tier": "tool_state",
+      "title": "CIF 之外又单列保险费被拒绝",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CIF 总价 1,080 美元，保险费 10 美元，其他条件一样"
+      ],
+      "expect": {
+        "finalPhase": "collecting",
+        "conditionErrorCodes": [
+          "included_cost_repeated"
+        ],
+        "answerContains": [
+          "不能重复叠加"
+        ],
+        "scenarioOutlays": {
+          "A": "9658.11"
+        }
+      },
+      "veto": [
+        "CIF 重复叠加保险费即不通过"
+      ]
+    },
+    {
+      "id": "D07",
+      "category": "报价比较与费用口径",
+      "tier": "tool_state",
+      "title": "同价不同口径识别为支出相同",
+      "turns": [
+        "100 件，每件 9.70 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CIF 总价 1,080 美元，其他条件一样，哪个支出更低？"
+      ],
+      "referenceKey": "sameCostFob",
+      "expect": {
+        "finalPhase": "comparing",
+        "scenarioOutlays": {
+          "A": "9397.08",
+          "B": "9397.08"
+        },
+        "comparisonOk": true,
+        "sameCost": true,
+        "answerContains": [
+          "支出相同"
+        ],
+        "amounts": {
+          "outlay": "9397.08"
+        }
+      },
+      "humanReference": {
+        "outlay": "9397.08",
+        "perUnit": "93.97"
+      },
+      "veto": [
+        "把同价方案硬说成一方更低即不通过"
+      ]
+    },
+    {
+      "id": "E01",
+      "category": "工具异常、超时及恢复",
+      "tier": "tool_state",
+      "title": "导出前发现结果被篡改，自动重算",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "把两种方案整理成一份摘要。"
+      ],
+      "inject": {
+        "afterTurn": 1,
+        "type": "tamperResultAmount",
+        "scenarioId": "A",
+        "field": "outlay",
+        "value": "1.00"
+      },
+      "expect": {
+        "finalPhase": "exported",
+        "export": {
+          "scenarioIds": [
+            "A"
+          ],
+          "contains": [
+            "9,658.11"
+          ],
+          "excludes": [
+            "1.00 元"
+          ],
+          "checksumValid": true,
+          "ext": ".md"
+        },
+        "answerContains": [
+          "重算核对"
+        ],
+        "toolsInclude": [
+          "export_case_summary"
+        ]
+      },
+      "veto": [
+        "导出沿用被篡改金额即不通过"
+      ]
+    },
+    {
+      "id": "E02",
+      "category": "工具异常、超时及恢复",
+      "tier": "tool_state",
+      "title": "模型超时后保留状态并重试成功",
+      "turns": [
+        "我的进口成本怎么算？",
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "modelFailureAt": [
+        1
+      ],
+      "expect": {
+        "finalPhase": "calculated",
+        "amounts": {
+          "outlay": "9658.11",
+          "perUnit": "96.58"
+        },
+        "errorsSeen": [
+          "model_unavailable"
+        ],
+        "answerContains": [
+          "9,658.11 元"
+        ],
+        "noRawJson": true
+      },
+      "veto": [
+        "模型失败后丢失用户输入即不通过",
+        "模型失败后伪造成计算成功即不通过"
+      ]
+    },
+    {
+      "id": "E03",
+      "category": "工具异常、超时及恢复",
+      "tier": "tool_state",
+      "title": "不支持的消费税规则被拒绝，改为 0 后恢复",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%，消费税 5%。",
+        "消费税 0%"
+      ],
+      "expect": {
+        "finalPhase": "calculated",
+        "errorsSeen": [
+          "excise_unsupported"
+        ],
+        "amounts": {
+          "outlay": "9658.11",
+          "perUnit": "96.58"
+        },
+        "scenarioValues": {
+          "A": {
+            "exciseRate": "0.00"
+          }
+        }
+      },
+      "veto": [
+        "自行编造消费税复合公式即不通过"
+      ]
+    },
+    {
+      "id": "E04",
+      "category": "工具异常、超时及恢复",
+      "tier": "tool_state",
+      "title": "两个方案中一个结果被篡改，导出仍一致",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CIF 总价 1,080 美元，其他条件一样，哪个支出更低？",
+        "把两种方案整理成一份摘要。"
+      ],
+      "inject": {
+        "afterTurn": 2,
+        "type": "tamperResultAmount",
+        "scenarioId": "B",
+        "field": "outlay",
+        "value": "1.00"
+      },
+      "expect": {
+        "finalPhase": "exported",
+        "export": {
+          "scenarioIds": [
+            "A",
+            "B"
+          ],
+          "contains": [
+            "9,658.11",
+            "9,397.08"
+          ],
+          "excludes": [
+            "1.00 元"
+          ],
+          "checksumValid": true
+        },
+        "answerContains": [
+          "方案 A、B"
+        ]
+      },
+      "veto": [
+        "导出只包含一个方案或沿用篡改值即不通过"
+      ]
+    },
+    {
+      "id": "F01",
+      "category": "解释、依据与导出一致性",
+      "tier": "tool_state",
+      "title": "解释中的金额与工具结果一致",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "为什么是这个数？"
+      ],
+      "expect": {
+        "finalPhase": "calculated",
+        "answerContains": [
+          "9,658.11 元"
+        ],
+        "detailContains": [
+          "计税价格",
+          "关税",
+          "进口增值税",
+          "9,658.11",
+          "未舍入"
+        ],
+        "noRawJson": true,
+        "lastToolsExclude": [
+          "calculate_import_outlay"
+        ]
+      },
+      "veto": [
+        "解释中的金额与结果卡不一致即不通过"
+      ]
+    },
+    {
+      "id": "F02",
+      "category": "解释、依据与导出一致性",
+      "tier": "tool_state",
+      "title": "明确区分支出与会计成本",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。"
+      ],
+      "expect": {
+        "answerContains": [
+          "不等于可确认的会计成本",
+          "进口增值税能否抵扣"
+        ],
+        "detailContains": [
+          "舍入",
+          "口径"
+        ]
+      },
+      "veto": [
+        "把支出合计直接称为会计成本即不通过"
+      ]
+    },
+    {
+      "id": "F03",
+      "category": "解释、依据与导出一致性",
+      "tier": "tool_state",
+      "title": "导出摘要包含输入、公式、结果、假设、来源与指纹",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "把两种方案整理成一份摘要。"
+      ],
+      "expect": {
+        "finalPhase": "exported",
+        "export": {
+          "scenarioIds": [
+            "A"
+          ],
+          "contains": [
+            "# 小贸 · 进口成本案例摘要",
+            "## 二、输入条件",
+            "## 三、计算公式与代入",
+            "## 五、假设与适用范围",
+            "## 七、来源与依据",
+            "复算与一致性",
+            "TEACHING-CASE-SUIBE-2026",
+            "输入指纹"
+          ],
+          "checksumValid": true,
+          "ext": ".md"
+        }
+      },
+      "veto": [
+        "导出缺少假设、来源或指纹即不通过"
+      ]
+    },
+    {
+      "id": "F04",
+      "category": "解释、依据与导出一致性",
+      "tier": "tool_state",
+      "title": "修改汇率后导出使用最新值",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "把汇率改成 7.2",
+        "把两种方案整理成一份摘要。"
+      ],
+      "referenceKey": "fx72",
+      "expect": {
+        "finalPhase": "exported",
+        "export": {
+          "scenarioIds": [
+            "A"
+          ],
+          "contains": [
+            "9,934.06",
+            "7.2000"
+          ],
+          "excludes": [
+            "9,658.11"
+          ],
+          "checksumValid": true
+        }
+      },
+      "veto": [
+        "导出仍是旧汇率结果即不通过"
+      ]
+    },
+    {
+      "id": "F05",
+      "category": "解释、依据与导出一致性",
+      "tier": "tool_state",
+      "title": "教学税率不被说成现行税率",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "把两种方案整理成一份摘要。"
+      ],
+      "expect": {
+        "answerExcludes": [
+          "现行税率为",
+          "当前税率为",
+          "实际税率为"
+        ],
+        "export": {
+          "scenarioIds": [
+            "A"
+          ],
+          "contains": [
+            "教学设定",
+            "不代表任何商品或任何时点的现行税率",
+            "不构成真实业务"
+          ],
+          "excludes": [
+            "现行税率为",
+            "当前税率为",
+            "实际税率为"
+          ],
+          "checksumValid": true
+        }
+      },
+      "veto": [
+        "把教学设定表述为现实税率即不通过"
+      ]
+    },
+    {
+      "id": "F06",
+      "category": "解释、依据与导出一致性",
+      "tier": "tool_state",
+      "title": "两方案导出与页面当前方案一致",
+      "turns": [
+        "100 件，每件 10 美元，FOB，运费 100 美元，保险 10 美元，汇率 7，关税 10%，增值税 13%。",
+        "另一个供应商报 CIF 总价 1,080 美元，其他条件一样，哪个支出更低？",
+        "把两种方案整理成一份摘要。"
+      ],
+      "expect": {
+        "finalPhase": "exported",
+        "scenarioCount": 2,
+        "export": {
+          "scenarioIds": [
+            "A",
+            "B"
+          ],
+          "contains": [
+            "9,658.11",
+            "9,397.08",
+            "方案 B 更低",
+            "CIF 等值"
+          ],
+          "checksumValid": true
+        },
+        "comparisonOk": true,
+        "cheaperId": "B"
+      },
+      "veto": [
+        "导出方案数量、金额或差额与页面不一致即不通过"
+      ]
+    }
+  ]
+}

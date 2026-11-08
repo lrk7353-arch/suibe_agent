@@ -1,0 +1,1277 @@
+{
+  "caseId": "TEACHING-CASE-SUIBE-2026",
+  "title": "小贸 · 进口成本案例摘要",
+  "generatedAt": "2026-11-08 22:00:00（Asia/Shanghai）",
+  "generatedAtIso": "2026-11-08T14:00:00.000Z",
+  "stateVersion": 5,
+  "phase": "comparing",
+  "mode": "教学案例（固定数据，非实时查询）",
+  "scope": "按本案例给定条件计算：含进口税费支出＝计税价格＋关税＋进口增值税；不等于可确认的会计成本。",
+  "scenarios": [
+    {
+      "id": "A",
+      "label": "方案 A",
+      "incomplete": false,
+      "priceTerm": "FOB",
+      "priceTermLabel": "FOB（离岸价）",
+      "currency": "USD",
+      "quantityUnit": "件",
+      "rows": [
+        {
+          "field": "quantity",
+          "label": "商品数量（件）",
+          "value": "100",
+          "unit": "件",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "100 件",
+          "note": ""
+        },
+        {
+          "field": "priceTerm",
+          "label": "报价口径",
+          "value": "FOB",
+          "unit": "",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "FOB",
+          "note": ""
+        },
+        {
+          "field": "currency",
+          "label": "报价币种",
+          "value": "USD",
+          "unit": "美元",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "美元",
+          "note": ""
+        },
+        {
+          "field": "unitPrice",
+          "label": "商品单价（美元/件）",
+          "value": "10.00",
+          "unit": "美元/件",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "每件 10 美元",
+          "note": ""
+        },
+        {
+          "field": "totalPrice",
+          "label": "报价总价（美元，整批）",
+          "value": null,
+          "display": "不适用",
+          "unit": "",
+          "applicable": false,
+          "note": "FOB 按“单价×数量”计，不填总价",
+          "source": "na",
+          "sourceText": "不适用"
+        },
+        {
+          "field": "freight",
+          "label": "国际运费（美元，整批）",
+          "value": "100.00",
+          "unit": "美元（整批）",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "运费 100 美元",
+          "note": ""
+        },
+        {
+          "field": "insurance",
+          "label": "保险费（美元，整批）",
+          "value": "10.00",
+          "unit": "美元（整批）",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "保险 10 美元",
+          "note": ""
+        },
+        {
+          "field": "fx",
+          "label": "汇率（元/美元）",
+          "value": "7.0000",
+          "unit": "元/美元",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "汇率 7",
+          "note": "汇率方向：1 美元兑多少元人民币。"
+        },
+        {
+          "field": "dutyRate",
+          "label": "关税税率",
+          "value": "10.00",
+          "unit": "%",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "关税 10%",
+          "note": ""
+        },
+        {
+          "field": "vatRate",
+          "label": "进口增值税税率",
+          "value": "13.00",
+          "unit": "%",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "增值税 13%",
+          "note": ""
+        },
+        {
+          "field": "domesticFees",
+          "label": "国内其他费用（元）",
+          "value": "0.00",
+          "unit": "元",
+          "applicable": true,
+          "source": "case_assumption",
+          "sourceText": "案例约定",
+          "quote": "",
+          "note": "教学案例约定：国内其他费用暂按 0 计"
+        },
+        {
+          "field": "exciseRate",
+          "label": "消费税税率",
+          "value": "0.00",
+          "unit": "%",
+          "applicable": true,
+          "source": "case_assumption",
+          "sourceText": "案例约定",
+          "quote": "",
+          "note": "教学案例约定：消费税本案例不涉及"
+        }
+      ],
+      "result": {
+        "ok": true,
+        "tool": "calculate_import_outlay",
+        "calcVersion": "calc-v1",
+        "caseId": "TEACHING-CASE-SUIBE-2026",
+        "scenarioId": "A",
+        "priceTerm": "FOB",
+        "currency": "USD",
+        "quantityUnit": "件",
+        "inputHash": "50cec554c2a9495d5baf73cf237bf1abdc120f7db8764af06ff89892f02e3541",
+        "calculatedAt": "2026-11-08T15:14:34.124Z",
+        "amounts": {
+          "goodsTotal": {
+            "value": "1000.00",
+            "places": 2,
+            "currency": "USD",
+            "text": "1,000.00 美元",
+            "raw": "1000.000000"
+          },
+          "freightTotal": {
+            "value": "100.00",
+            "places": 2,
+            "currency": "USD",
+            "text": "100.00 美元",
+            "raw": "100.000000"
+          },
+          "insuranceTotal": {
+            "value": "10.00",
+            "places": 2,
+            "currency": "USD",
+            "text": "10.00 美元",
+            "raw": "10.000000"
+          },
+          "cifEquivalent": {
+            "value": "1110.00",
+            "places": 2,
+            "currency": "USD",
+            "text": "1,110.00 美元",
+            "raw": "1110.000000"
+          },
+          "taxableValue": {
+            "value": "7770.00",
+            "places": 2,
+            "currency": "CNY",
+            "text": "7,770.00 元",
+            "raw": "7770.000000"
+          },
+          "duty": {
+            "value": "777.00",
+            "places": 2,
+            "currency": "CNY",
+            "text": "777.00 元",
+            "raw": "777.000000"
+          },
+          "vat": {
+            "value": "1111.11",
+            "places": 2,
+            "currency": "CNY",
+            "text": "1,111.11 元",
+            "raw": "1111.110000"
+          },
+          "outlay": {
+            "value": "9658.11",
+            "places": 2,
+            "currency": "CNY",
+            "text": "9,658.11 元",
+            "raw": "9658.110000"
+          },
+          "perUnit": {
+            "value": "96.58",
+            "places": 2,
+            "currency": "CNY",
+            "text": "96.58 元",
+            "raw": "96.580000"
+          },
+          "domesticFees": {
+            "value": "0.00",
+            "places": 2,
+            "currency": "CNY",
+            "text": "0.00 元",
+            "raw": "0.000000"
+          },
+          "grandTotal": {
+            "value": "9658.11",
+            "places": 2,
+            "currency": "CNY",
+            "text": "9,658.11 元",
+            "raw": "9658.110000"
+          },
+          "perUnitGrand": {
+            "value": "96.58",
+            "places": 2,
+            "currency": "CNY",
+            "text": "96.58 元",
+            "raw": "96.580000"
+          }
+        },
+        "rates": {
+          "fx": {
+            "value": "7.0000",
+            "text": "7.0000 元/美元"
+          },
+          "dutyRate": {
+            "value": "10.00",
+            "text": "10.00%"
+          },
+          "vatRate": {
+            "value": "13.00",
+            "text": "13.00%"
+          },
+          "exciseRate": {
+            "value": "0.00",
+            "text": "0.00%"
+          }
+        },
+        "composition": [
+          {
+            "key": "taxableValue",
+            "label": "计税价格",
+            "amount": "7770.00",
+            "amountText": "7,770.00 元",
+            "share": "80.45",
+            "shareText": "80.45%"
+          },
+          {
+            "key": "duty",
+            "label": "关税",
+            "amount": "777.00",
+            "amountText": "777.00 元",
+            "share": "8.05",
+            "shareText": "8.05%"
+          },
+          {
+            "key": "vat",
+            "label": "进口增值税",
+            "amount": "1111.11",
+            "amountText": "1,111.11 元",
+            "share": "11.50",
+            "shareText": "11.50%"
+          }
+        ],
+        "trace": [
+          {
+            "id": "goods_total",
+            "label": "商品总价",
+            "formula": "100 件 × 10.00 美元/件",
+            "raw": "1000.000000",
+            "value": "1000.00",
+            "currency": "USD",
+            "note": "按 FOB 单价乘数量"
+          },
+          {
+            "id": "cif_equivalent",
+            "label": "CIF 等值",
+            "formula": "1,000.00 + 100.00 + 10.00",
+            "raw": "1110.000000",
+            "value": "1110.00",
+            "currency": "USD",
+            "note": "统一折算为 CIF 等值"
+          },
+          {
+            "id": "taxable_value",
+            "label": "计税价格",
+            "formula": "1,110.00 美元 × 7.0000 元/美元",
+            "raw": "7770.000000",
+            "value": "7770.00",
+            "currency": "CNY",
+            "rounding": {
+              "places": 2,
+              "rule": "half-up"
+            },
+            "note": "按案例约定先折人民币"
+          },
+          {
+            "id": "duty",
+            "label": "关税",
+            "formula": "7,770.00 × 10.00%",
+            "raw": "777.000000",
+            "value": "777.00",
+            "currency": "CNY",
+            "rounding": {
+              "places": 2,
+              "rule": "half-up"
+            },
+            "note": "以已舍入的计税价格为基数"
+          },
+          {
+            "id": "vat",
+            "label": "进口增值税",
+            "formula": "(7,770.00 + 777.00) × 13.00%",
+            "raw": "1111.110000",
+            "value": "1111.11",
+            "currency": "CNY",
+            "rounding": {
+              "places": 2,
+              "rule": "half-up"
+            },
+            "note": "以“计税价格＋关税”为基数"
+          },
+          {
+            "id": "outlay",
+            "label": "含进口税费支出合计",
+            "formula": "7,770.00 + 777.00 + 1,111.11",
+            "raw": "9658.110000",
+            "value": "9658.11",
+            "currency": "CNY",
+            "note": "使用已舍入分项相加，不再二次舍入"
+          },
+          {
+            "id": "per_unit",
+            "label": "每件对应支出",
+            "formula": "9,658.11 ÷ 100 件",
+            "raw": "96.581100",
+            "value": "96.58",
+            "currency": "CNY",
+            "rounding": {
+              "places": 2,
+              "rule": "half-up"
+            },
+            "note": "展示值，不参与合计"
+          }
+        ],
+        "assumptions": [
+          {
+            "id": "scope_outlay",
+            "text": "计算口径为“含进口税费支出合计”＝计税价格＋关税＋进口增值税；不等于会计成本。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "excise_zero",
+            "text": "消费税：本案例不涉及，按 0 计。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "domestic_zero",
+            "text": "国内其他费用：本案例暂按 0 计（港杂费、代理费、检验检疫、资金占用等均未计入）。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "teaching_rates",
+            "text": "汇率、关税税率、进口增值税税率均为本案例的教学设定，不代表任何商品或任何时点的现行税率。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "no_live_query",
+            "text": "本轮不查询实时汇率、商品归类、原产地规则或协定税率；如用于真实业务，需另行核对来源与适用条件。",
+            "source": "演示范围声明",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "vat_not_cost",
+            "text": "进口增值税能否抵扣取决于纳税人身份与凭证，本案例只把它计入“支出”，不直接称为可确认的会计成本。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          }
+        ],
+        "roundingRules": [
+          "金额以十进制定点存储；金额保留 2 位小数，汇率保留 4 位小数，税率保留 2 位小数。",
+          "每一步只对输出的金额做一次“四舍五入（half-up，远离零）”，后续步骤使用已舍入金额。",
+          "关税＝计税价格×关税税率，结果保留 2 位；进口增值税＝（计税价格＋关税）×增值税税率，结果保留 2 位。",
+          "合计＝计税价格＋关税＋进口增值税，使用已舍入的分项金额相加，不再二次舍入。",
+          "每件对应支出＝合计÷数量，保留 2 位，仅作展示；不做“每件×数量=合计”的反向校验。"
+        ],
+        "formulas": [
+          {
+            "id": "F1",
+            "label": "商品总价",
+            "text": "商品总价 = 单价 × 数量（FOB）"
+          },
+          {
+            "id": "F2",
+            "label": "CIF 等值",
+            "text": "CIF 等值 = 商品总价 + 国际运费 + 保险费（FOB）；CFR 报价另加保险费；CIF 报价即为总价"
+          },
+          {
+            "id": "F3",
+            "label": "计税价格",
+            "text": "计税价格 = CIF 等值 × 汇率（人民币/外币）"
+          },
+          {
+            "id": "F4",
+            "label": "关税",
+            "text": "关税 = 计税价格 × 关税税率"
+          },
+          {
+            "id": "F5",
+            "label": "进口增值税",
+            "text": "进口增值税 =（计税价格 + 关税）× 进口增值税税率"
+          },
+          {
+            "id": "F6",
+            "label": "支出合计",
+            "text": "含进口税费支出合计 = 计税价格 + 关税 + 进口增值税"
+          },
+          {
+            "id": "F7",
+            "label": "每件支出",
+            "text": "每件对应支出 = 支出合计 ÷ 商品数量（展示值）"
+          }
+        ],
+        "includedCosts": {
+          "freight": "separately_added",
+          "insurance": "separately_added",
+          "note": "报价只含货物本身，国际运费与保险费需另加"
+        },
+        "scopeNote": "按本案例给定条件计算：含进口税费支出＝计税价格＋关税＋进口增值税；该支出不等于可确认的会计成本。",
+        "display": {
+          "outlay": "9,658.11 元",
+          "perUnit": "96.58 元/件",
+          "compositionSummary": "计税价格 7,770.00 元（80.45%）；关税 777.00 元（8.05%）；进口增值税 1,111.11 元（11.50%）"
+        },
+        "hash": "367c789d1a9aaf0cd1df6a34f96558ff3ec0a3da824619b95e1d20a284a00f7d"
+      },
+      "resultHash": "367c789d1a9aaf0cd1df6a34f96558ff3ec0a3da824619b95e1d20a284a00f7d",
+      "inputHash": "50cec554c2a9495d5baf73cf237bf1abdc120f7db8764af06ff89892f02e3541",
+      "meta": {
+        "domesticFees": {
+          "source": "case_assumption",
+          "turn": null,
+          "quote": "",
+          "note": "教学案例约定：国内其他费用暂按 0 计",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "exciseRate": {
+          "source": "case_assumption",
+          "turn": null,
+          "quote": "",
+          "note": "教学案例约定：消费税本案例不涉及",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "priceTerm": {
+          "source": "user",
+          "turn": 2,
+          "quote": "FOB",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "currency": {
+          "source": "user",
+          "turn": 2,
+          "quote": "美元",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "unitPrice": {
+          "source": "user",
+          "turn": 2,
+          "quote": "每件 10 美元",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "quantity": {
+          "source": "user",
+          "turn": 2,
+          "quote": "100 件",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "fx": {
+          "source": "user",
+          "turn": 3,
+          "quote": "汇率 7",
+          "note": "汇率方向：1 美元兑多少元人民币。",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "freight": {
+          "source": "user",
+          "turn": 3,
+          "quote": "运费 100 美元",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "insurance": {
+          "source": "user",
+          "turn": 3,
+          "quote": "保险 10 美元",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "dutyRate": {
+          "source": "user",
+          "turn": 3,
+          "quote": "关税 10%",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "vatRate": {
+          "source": "user",
+          "turn": 3,
+          "quote": "增值税 13%",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        }
+      },
+      "notes": []
+    },
+    {
+      "id": "B",
+      "label": "方案 B",
+      "incomplete": false,
+      "priceTerm": "CIF",
+      "priceTermLabel": "CIF（到岸价）",
+      "currency": "USD",
+      "quantityUnit": "件",
+      "rows": [
+        {
+          "field": "quantity",
+          "label": "商品数量（件）",
+          "value": "100",
+          "unit": "件",
+          "applicable": true,
+          "source": "inherited",
+          "sourceText": "沿用其他方案",
+          "quote": "",
+          "note": "沿用方案 A"
+        },
+        {
+          "field": "priceTerm",
+          "label": "报价口径",
+          "value": "CIF",
+          "unit": "",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "CIF",
+          "note": ""
+        },
+        {
+          "field": "currency",
+          "label": "报价币种",
+          "value": "USD",
+          "unit": "美元",
+          "applicable": true,
+          "source": "inherited",
+          "sourceText": "沿用其他方案",
+          "quote": "",
+          "note": "沿用方案 A"
+        },
+        {
+          "field": "unitPrice",
+          "label": "商品单价（美元/件）",
+          "value": null,
+          "display": "不适用",
+          "unit": "",
+          "applicable": false,
+          "note": "CIF 按整批总价计，不填单价",
+          "source": "na",
+          "sourceText": "不适用"
+        },
+        {
+          "field": "totalPrice",
+          "label": "报价总价（美元，整批）",
+          "value": "1,080.00",
+          "unit": "美元（整批）",
+          "applicable": true,
+          "source": "user",
+          "sourceText": "用户填写",
+          "quote": "总价 1,080 美元",
+          "note": ""
+        },
+        {
+          "field": "freight",
+          "label": "国际运费（美元，整批）",
+          "value": null,
+          "display": "不适用",
+          "unit": "",
+          "applicable": false,
+          "note": "CIF 报价已含国际运费",
+          "source": "na",
+          "sourceText": "不适用"
+        },
+        {
+          "field": "insurance",
+          "label": "保险费（美元，整批）",
+          "value": null,
+          "display": "不适用",
+          "unit": "",
+          "applicable": false,
+          "note": "CIF 报价已含保险费",
+          "source": "na",
+          "sourceText": "不适用"
+        },
+        {
+          "field": "fx",
+          "label": "汇率（元/美元）",
+          "value": "7.0000",
+          "unit": "元/美元",
+          "applicable": true,
+          "source": "inherited",
+          "sourceText": "沿用其他方案",
+          "quote": "",
+          "note": "沿用方案 A"
+        },
+        {
+          "field": "dutyRate",
+          "label": "关税税率",
+          "value": "10.00",
+          "unit": "%",
+          "applicable": true,
+          "source": "inherited",
+          "sourceText": "沿用其他方案",
+          "quote": "",
+          "note": "沿用方案 A"
+        },
+        {
+          "field": "vatRate",
+          "label": "进口增值税税率",
+          "value": "13.00",
+          "unit": "%",
+          "applicable": true,
+          "source": "inherited",
+          "sourceText": "沿用其他方案",
+          "quote": "",
+          "note": "沿用方案 A"
+        },
+        {
+          "field": "domesticFees",
+          "label": "国内其他费用（元）",
+          "value": "0.00",
+          "unit": "元",
+          "applicable": true,
+          "source": "inherited",
+          "sourceText": "沿用其他方案",
+          "quote": "",
+          "note": "沿用方案 A"
+        },
+        {
+          "field": "exciseRate",
+          "label": "消费税税率",
+          "value": "0.00",
+          "unit": "%",
+          "applicable": true,
+          "source": "inherited",
+          "sourceText": "沿用其他方案",
+          "quote": "",
+          "note": "沿用方案 A"
+        }
+      ],
+      "result": {
+        "ok": true,
+        "tool": "calculate_import_outlay",
+        "calcVersion": "calc-v1",
+        "caseId": "TEACHING-CASE-SUIBE-2026",
+        "scenarioId": "B",
+        "priceTerm": "CIF",
+        "currency": "USD",
+        "quantityUnit": "件",
+        "inputHash": "f1b84d0737c442747dc7fb91d23a4cd26f3d71d286b2032174f809b238a9e0fd",
+        "calculatedAt": "2026-11-08T15:14:34.124Z",
+        "amounts": {
+          "goodsTotal": {
+            "value": "1080.00",
+            "places": 2,
+            "currency": "USD",
+            "text": "1,080.00 美元",
+            "raw": "1080.000000"
+          },
+          "freightTotal": {
+            "value": "0.00",
+            "places": 2,
+            "currency": "USD",
+            "text": "0.00 美元",
+            "raw": "0.000000"
+          },
+          "insuranceTotal": {
+            "value": "0.00",
+            "places": 2,
+            "currency": "USD",
+            "text": "0.00 美元",
+            "raw": "0.000000"
+          },
+          "cifEquivalent": {
+            "value": "1080.00",
+            "places": 2,
+            "currency": "USD",
+            "text": "1,080.00 美元",
+            "raw": "1080.000000"
+          },
+          "taxableValue": {
+            "value": "7560.00",
+            "places": 2,
+            "currency": "CNY",
+            "text": "7,560.00 元",
+            "raw": "7560.000000"
+          },
+          "duty": {
+            "value": "756.00",
+            "places": 2,
+            "currency": "CNY",
+            "text": "756.00 元",
+            "raw": "756.000000"
+          },
+          "vat": {
+            "value": "1081.08",
+            "places": 2,
+            "currency": "CNY",
+            "text": "1,081.08 元",
+            "raw": "1081.080000"
+          },
+          "outlay": {
+            "value": "9397.08",
+            "places": 2,
+            "currency": "CNY",
+            "text": "9,397.08 元",
+            "raw": "9397.080000"
+          },
+          "perUnit": {
+            "value": "93.97",
+            "places": 2,
+            "currency": "CNY",
+            "text": "93.97 元",
+            "raw": "93.970000"
+          },
+          "domesticFees": {
+            "value": "0.00",
+            "places": 2,
+            "currency": "CNY",
+            "text": "0.00 元",
+            "raw": "0.000000"
+          },
+          "grandTotal": {
+            "value": "9397.08",
+            "places": 2,
+            "currency": "CNY",
+            "text": "9,397.08 元",
+            "raw": "9397.080000"
+          },
+          "perUnitGrand": {
+            "value": "93.97",
+            "places": 2,
+            "currency": "CNY",
+            "text": "93.97 元",
+            "raw": "93.970000"
+          }
+        },
+        "rates": {
+          "fx": {
+            "value": "7.0000",
+            "text": "7.0000 元/美元"
+          },
+          "dutyRate": {
+            "value": "10.00",
+            "text": "10.00%"
+          },
+          "vatRate": {
+            "value": "13.00",
+            "text": "13.00%"
+          },
+          "exciseRate": {
+            "value": "0.00",
+            "text": "0.00%"
+          }
+        },
+        "composition": [
+          {
+            "key": "taxableValue",
+            "label": "计税价格",
+            "amount": "7560.00",
+            "amountText": "7,560.00 元",
+            "share": "80.45",
+            "shareText": "80.45%"
+          },
+          {
+            "key": "duty",
+            "label": "关税",
+            "amount": "756.00",
+            "amountText": "756.00 元",
+            "share": "8.05",
+            "shareText": "8.05%"
+          },
+          {
+            "key": "vat",
+            "label": "进口增值税",
+            "amount": "1081.08",
+            "amountText": "1,081.08 元",
+            "share": "11.50",
+            "shareText": "11.50%"
+          }
+        ],
+        "trace": [
+          {
+            "id": "goods_total",
+            "label": "CIF 报价总价",
+            "formula": "整批报价（已含国际运费与保险费）",
+            "raw": "1080.000000",
+            "value": "1080.00",
+            "currency": "USD",
+            "note": "CIF 总价已含国际运费与保险费"
+          },
+          {
+            "id": "cif_equivalent",
+            "label": "CIF 等值",
+            "formula": "CIF 总价（已含运费与保险费）",
+            "raw": "1080.000000",
+            "value": "1080.00",
+            "currency": "USD",
+            "note": "不再叠加运费与保险费"
+          },
+          {
+            "id": "taxable_value",
+            "label": "计税价格",
+            "formula": "1,080.00 美元 × 7.0000 元/美元",
+            "raw": "7560.000000",
+            "value": "7560.00",
+            "currency": "CNY",
+            "rounding": {
+              "places": 2,
+              "rule": "half-up"
+            },
+            "note": "按案例约定先折人民币"
+          },
+          {
+            "id": "duty",
+            "label": "关税",
+            "formula": "7,560.00 × 10.00%",
+            "raw": "756.000000",
+            "value": "756.00",
+            "currency": "CNY",
+            "rounding": {
+              "places": 2,
+              "rule": "half-up"
+            },
+            "note": "以已舍入的计税价格为基数"
+          },
+          {
+            "id": "vat",
+            "label": "进口增值税",
+            "formula": "(7,560.00 + 756.00) × 13.00%",
+            "raw": "1081.080000",
+            "value": "1081.08",
+            "currency": "CNY",
+            "rounding": {
+              "places": 2,
+              "rule": "half-up"
+            },
+            "note": "以“计税价格＋关税”为基数"
+          },
+          {
+            "id": "outlay",
+            "label": "含进口税费支出合计",
+            "formula": "7,560.00 + 756.00 + 1,081.08",
+            "raw": "9397.080000",
+            "value": "9397.08",
+            "currency": "CNY",
+            "note": "使用已舍入分项相加，不再二次舍入"
+          },
+          {
+            "id": "per_unit",
+            "label": "每件对应支出",
+            "formula": "9,397.08 ÷ 100 件",
+            "raw": "93.970800",
+            "value": "93.97",
+            "currency": "CNY",
+            "rounding": {
+              "places": 2,
+              "rule": "half-up"
+            },
+            "note": "展示值，不参与合计"
+          }
+        ],
+        "assumptions": [
+          {
+            "id": "scope_outlay",
+            "text": "计算口径为“含进口税费支出合计”＝计税价格＋关税＋进口增值税；不等于会计成本。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "excise_zero",
+            "text": "消费税：本案例不涉及，按 0 计。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "domestic_zero",
+            "text": "国内其他费用：本案例暂按 0 计（港杂费、代理费、检验检疫、资金占用等均未计入）。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "teaching_rates",
+            "text": "汇率、关税税率、进口增值税税率均为本案例的教学设定，不代表任何商品或任何时点的现行税率。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "no_live_query",
+            "text": "本轮不查询实时汇率、商品归类、原产地规则或协定税率；如用于真实业务，需另行核对来源与适用条件。",
+            "source": "演示范围声明",
+            "appliesTo": "全部方案"
+          },
+          {
+            "id": "vat_not_cost",
+            "text": "进口增值税能否抵扣取决于纳税人身份与凭证，本案例只把它计入“支出”，不直接称为可确认的会计成本。",
+            "source": "教学案例约定",
+            "appliesTo": "全部方案"
+          }
+        ],
+        "roundingRules": [
+          "金额以十进制定点存储；金额保留 2 位小数，汇率保留 4 位小数，税率保留 2 位小数。",
+          "每一步只对输出的金额做一次“四舍五入（half-up，远离零）”，后续步骤使用已舍入金额。",
+          "关税＝计税价格×关税税率，结果保留 2 位；进口增值税＝（计税价格＋关税）×增值税税率，结果保留 2 位。",
+          "合计＝计税价格＋关税＋进口增值税，使用已舍入的分项金额相加，不再二次舍入。",
+          "每件对应支出＝合计÷数量，保留 2 位，仅作展示；不做“每件×数量=合计”的反向校验。"
+        ],
+        "formulas": [
+          {
+            "id": "F1",
+            "label": "商品总价",
+            "text": "商品总价 = 单价 × 数量（FOB）"
+          },
+          {
+            "id": "F2",
+            "label": "CIF 等值",
+            "text": "CIF 等值 = 商品总价 + 国际运费 + 保险费（FOB）；CFR 报价另加保险费；CIF 报价即为总价"
+          },
+          {
+            "id": "F3",
+            "label": "计税价格",
+            "text": "计税价格 = CIF 等值 × 汇率（人民币/外币）"
+          },
+          {
+            "id": "F4",
+            "label": "关税",
+            "text": "关税 = 计税价格 × 关税税率"
+          },
+          {
+            "id": "F5",
+            "label": "进口增值税",
+            "text": "进口增值税 =（计税价格 + 关税）× 进口增值税税率"
+          },
+          {
+            "id": "F6",
+            "label": "支出合计",
+            "text": "含进口税费支出合计 = 计税价格 + 关税 + 进口增值税"
+          },
+          {
+            "id": "F7",
+            "label": "每件支出",
+            "text": "每件对应支出 = 支出合计 ÷ 商品数量（展示值）"
+          }
+        ],
+        "includedCosts": {
+          "freight": "included_in_price",
+          "insurance": "included_in_price",
+          "note": "报价已含国际运费与保险费，不得重复叠加"
+        },
+        "scopeNote": "按本案例给定条件计算：含进口税费支出＝计税价格＋关税＋进口增值税；该支出不等于可确认的会计成本。",
+        "display": {
+          "outlay": "9,397.08 元",
+          "perUnit": "93.97 元/件",
+          "compositionSummary": "计税价格 7,560.00 元（80.45%）；关税 756.00 元（8.05%）；进口增值税 1,081.08 元（11.50%）"
+        },
+        "hash": "5ca88f656389db0212169ccd0b87285acfed4f60e3dff1ef87c6af3224c8cc01"
+      },
+      "resultHash": "5ca88f656389db0212169ccd0b87285acfed4f60e3dff1ef87c6af3224c8cc01",
+      "inputHash": "f1b84d0737c442747dc7fb91d23a4cd26f3d71d286b2032174f809b238a9e0fd",
+      "meta": {
+        "domesticFees": {
+          "source": "inherited",
+          "turn": null,
+          "quote": "",
+          "note": "沿用方案 A",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "exciseRate": {
+          "source": "inherited",
+          "turn": null,
+          "quote": "",
+          "note": "沿用方案 A",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "quantity": {
+          "source": "inherited",
+          "turn": null,
+          "quote": "",
+          "note": "沿用方案 A",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "currency": {
+          "source": "inherited",
+          "turn": null,
+          "quote": "",
+          "note": "沿用方案 A",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "fx": {
+          "source": "inherited",
+          "turn": null,
+          "quote": "",
+          "note": "沿用方案 A",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "dutyRate": {
+          "source": "inherited",
+          "turn": null,
+          "quote": "",
+          "note": "沿用方案 A",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "vatRate": {
+          "source": "inherited",
+          "turn": null,
+          "quote": "",
+          "note": "沿用方案 A",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "priceTerm": {
+          "source": "user",
+          "turn": 4,
+          "quote": "CIF",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        },
+        "totalPrice": {
+          "source": "user",
+          "turn": 4,
+          "quote": "总价 1,080 美元",
+          "note": "",
+          "updatedAt": "2026-11-08T14:00:00.000Z"
+        }
+      },
+      "notes": [
+        "共享条件沿用方案 A：商品数量、报价币种、汇率、关税税率、进口增值税税率、国内其他费用、消费税税率"
+      ]
+    }
+  ],
+  "incomplete": [],
+  "comparison": {
+    "ok": true,
+    "tool": "compare_trade_scenarios",
+    "calcVersion": "calc-v1",
+    "baselineId": "A",
+    "sameScope": true,
+    "basisNote": "两个方案已统一为 CIF 等值口径（FOB 报价另加运费与保险费；CIF 报价不重复叠加），并按同一汇率与税率计算。",
+    "scenarios": [
+      {
+        "id": "A",
+        "label": "方案 A",
+        "priceTerm": "FOB",
+        "priceTermLabel": "FOB（离岸价）",
+        "outlay": "9658.11",
+        "outlayText": "9,658.11 元",
+        "perUnit": "96.58",
+        "perUnitText": "96.58 元/件",
+        "cifEquivalent": "1,110.00 美元",
+        "includedCosts": {
+          "freight": "separately_added",
+          "insurance": "separately_added",
+          "note": "报价只含货物本身，国际运费与保险费需另加"
+        },
+        "resultHash": "367c789d1a9aaf0cd1df6a34f96558ff3ec0a3da824619b95e1d20a284a00f7d"
+      },
+      {
+        "id": "B",
+        "label": "方案 B",
+        "priceTerm": "CIF",
+        "priceTermLabel": "CIF（到岸价）",
+        "outlay": "9397.08",
+        "outlayText": "9,397.08 元",
+        "perUnit": "93.97",
+        "perUnitText": "93.97 元/件",
+        "cifEquivalent": "1,080.00 美元",
+        "includedCosts": {
+          "freight": "included_in_price",
+          "insurance": "included_in_price",
+          "note": "报价已含国际运费与保险费，不得重复叠加"
+        },
+        "resultHash": "5ca88f656389db0212169ccd0b87285acfed4f60e3dff1ef87c6af3224c8cc01"
+      }
+    ],
+    "differences": [
+      {
+        "id": "B",
+        "label": "方案 B",
+        "priceTerm": "CIF",
+        "outlay": "9397.08",
+        "outlayText": "9,397.08 元",
+        "perUnit": "93.97",
+        "perUnitText": "93.97 元",
+        "diffFromBaseline": "-261.03",
+        "diffText": "-261.03 元",
+        "diffPercent": "-2.70",
+        "diffPercentText": "-2.70%",
+        "perUnitDiff": "-2.61",
+        "perUnitDiffText": "-2.61 元",
+        "higher": false,
+        "equal": false
+      }
+    ],
+    "cheaper": {
+      "id": "B",
+      "label": "方案 B",
+      "outlay": "9397.08",
+      "outlayText": "9,397.08 元"
+    },
+    "maxDifference": "-261.03 元",
+    "sameCost": false,
+    "note": "按案例口径，方案 B 的含进口税费支出更低。"
+  },
+  "assumptions": [
+    {
+      "id": "scope_outlay",
+      "text": "计算口径为“含进口税费支出合计”＝计税价格＋关税＋进口增值税；不等于会计成本。",
+      "source": "教学案例约定",
+      "appliesTo": "全部方案"
+    },
+    {
+      "id": "excise_zero",
+      "text": "消费税：本案例不涉及，按 0 计。",
+      "source": "教学案例约定",
+      "appliesTo": "全部方案"
+    },
+    {
+      "id": "domestic_zero",
+      "text": "国内其他费用：本案例暂按 0 计（港杂费、代理费、检验检疫、资金占用等均未计入）。",
+      "source": "教学案例约定",
+      "appliesTo": "全部方案"
+    },
+    {
+      "id": "teaching_rates",
+      "text": "汇率、关税税率、进口增值税税率均为本案例的教学设定，不代表任何商品或任何时点的现行税率。",
+      "source": "教学案例约定",
+      "appliesTo": "全部方案"
+    },
+    {
+      "id": "no_live_query",
+      "text": "本轮不查询实时汇率、商品归类、原产地规则或协定税率；如用于真实业务，需另行核对来源与适用条件。",
+      "source": "演示范围声明",
+      "appliesTo": "全部方案"
+    },
+    {
+      "id": "vat_not_cost",
+      "text": "进口增值税能否抵扣取决于纳税人身份与凭证，本案例只把它计入“支出”，不直接称为可确认的会计成本。",
+      "source": "教学案例约定",
+      "appliesTo": "全部方案"
+    }
+  ],
+  "notIncluded": [
+    "消费税（本案例约定不涉及）",
+    "国内其他费用（港杂费、代理费、检验检疫费等，本案例按 0 计）",
+    "资金占用成本、汇兑损益与融资费用",
+    "进口增值税的抵扣影响（本案例只计算支出）",
+    "报关代理、仓储、滞箱、内陆运输等未列明费用",
+    "真实商品归类、原产地与协定税率差异"
+  ],
+  "roundingRules": [
+    "金额以十进制定点存储；金额保留 2 位小数，汇率保留 4 位小数，税率保留 2 位小数。",
+    "每一步只对输出的金额做一次“四舍五入（half-up，远离零）”，后续步骤使用已舍入金额。",
+    "关税＝计税价格×关税税率，结果保留 2 位；进口增值税＝（计税价格＋关税）×增值税税率，结果保留 2 位。",
+    "合计＝计税价格＋关税＋进口增值税，使用已舍入的分项金额相加，不再二次舍入。",
+    "每件对应支出＝合计÷数量，保留 2 位，仅作展示；不做“每件×数量=合计”的反向校验。"
+  ],
+  "formulas": [
+    {
+      "id": "F1",
+      "label": "商品总价",
+      "text": "商品总价 = 单价 × 数量（FOB）"
+    },
+    {
+      "id": "F2",
+      "label": "CIF 等值",
+      "text": "CIF 等值 = 商品总价 + 国际运费 + 保险费（FOB）；CFR 报价另加保险费；CIF 报价即为总价"
+    },
+    {
+      "id": "F3",
+      "label": "计税价格",
+      "text": "计税价格 = CIF 等值 × 汇率（人民币/外币）"
+    },
+    {
+      "id": "F4",
+      "label": "关税",
+      "text": "关税 = 计税价格 × 关税税率"
+    },
+    {
+      "id": "F5",
+      "label": "进口增值税",
+      "text": "进口增值税 =（计税价格 + 关税）× 进口增值税税率"
+    },
+    {
+      "id": "F6",
+      "label": "支出合计",
+      "text": "含进口税费支出合计 = 计税价格 + 关税 + 进口增值税"
+    },
+    {
+      "id": "F7",
+      "label": "每件支出",
+      "text": "每件对应支出 = 支出合计 ÷ 商品数量（展示值）"
+    }
+  ],
+  "sources": [
+    {
+      "id": "user_case",
+      "text": "本案例的数量、报价、运费、保险费、汇率与税率由用户在演示中给定，属于教学设定。",
+      "url": null
+    },
+    {
+      "id": "no_live_query",
+      "text": "本轮未查询实时汇率、商品归类、原产地规则或协定税率；不构成真实业务或税务意见。",
+      "url": null
+    },
+    {
+      "id": "calc_rules",
+      "text": "计算规则为本演示约定的教学简化公式，明细见“计算公式与代入”。",
+      "url": null
+    }
+  ],
+  "provenance": {
+    "calcVersion": "calc-v1",
+    "demoVersion": "trade-demo-v1.0.0",
+    "stateSchema": "trade-demo-state-v1",
+    "exportedBy": "小贸经贸演示 v1",
+    "checks": [
+      "导出时逐方案重算，结果指纹与页面一致（状态版本 v5）。",
+      "所有金额由十进制定点程序计算，不使用模型生成的数值。",
+      "导出内容只包含当前方案，不包含已取消或未完成的草案。"
+    ]
+  },
+  "format": "json",
+  "checksumNote": "本文件自身不含校验和，页面会给出内容 SHA-256。"
+}

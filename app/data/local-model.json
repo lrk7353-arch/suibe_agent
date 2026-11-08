@@ -1,0 +1,7 @@
+{
+  "id": "gemma4",
+  "name": "Gemma 4 E2B IT Q4_K_M",
+  "baseUrl": "http://127.0.0.1:18768",
+  "evidenceTokens": 6000,
+  "contextTokens": 8192
+}

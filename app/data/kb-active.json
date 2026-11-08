@@ -1,0 +1,6 @@
+{
+  "version": "v1.3-public-sample",
+  "release": "data/kb-v13-reviewed",
+  "embeddingModel": "models/bge-small-zh-v1.5",
+  "academicAvailable": false
+}

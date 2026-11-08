@@ -1,0 +1,51 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>小贸 · 进口成本案例摘要</title>
+<style>
+:root{--blue:#0066b3;--deep:#123d65;--ink:#18354e;--muted:#577086;--line:#d9e4ed;--wash:#f4f8fb;--sky:#e7f2fa;--amber:#9a6100}
+*{box-sizing:border-box}body{margin:0;background:var(--wash);color:var(--ink);font:15px/1.7 "Microsoft YaHei","PingFang SC",system-ui,sans-serif}
+main{max-width:900px;margin:0 auto;padding:40px 28px 64px;background:white}
+h1{font-size:28px;color:var(--deep);margin:0 0 8px}h2{font-size:20px;color:var(--deep);margin:32px 0 12px}h3{font-size:17px;color:var(--deep);margin:20px 0 8px}
+.meta{color:var(--muted);font-size:13px;margin-bottom:20px}
+.scope{background:var(--sky);border-left:4px solid var(--blue);padding:12px 16px;border-radius:0 8px 8px 0}
+table{width:100%;border-collapse:collapse;margin:12px 0 20px;font-size:14px}
+th,td{border-bottom:1px solid var(--line);padding:9px 10px;text-align:left;vertical-align:top}
+th{background:#f8fbfd;color:var(--deep);font-weight:600}td{font-variant-numeric:tabular-nums}
+td.strong{color:var(--blue);font-weight:700;font-size:16px}
+.block{border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:16px 0}
+.trace{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.trace li{display:grid;gap:2px;padding:10px 0;border-bottom:1px dashed var(--line)}
+.trace li:last-child{border-bottom:0}
+.trace span{font-size:12px;color:var(--muted)}
+.trace code{font-family:"Cascadia Mono",Consolas,monospace;background:var(--wash);padding:4px 8px;border-radius:6px;font-size:13px}
+.trace strong{color:var(--blue)}
+.trace small{color:var(--amber)}
+.diff{background:#fff8ec;border:1px solid #f1d9ae;border-radius:8px;padding:10px 14px}
+.pending{color:var(--amber)}.na{color:var(--muted);font-size:12px}.muted{color:var(--muted);font-size:12px}
+ul{padding-left:22px}footer{margin-top:36px;padding-top:16px;border-top:1px solid var(--line);color:var(--muted);font-size:12px}
+@media print{body{background:white}main{padding:0;max-width:none}.block{break-inside:avoid}}
+</style></head><body><main>
+<h1>小贸 · 进口成本案例摘要</h1>
+<p class="meta">生成时间：2026-11-08 22:00:00（Asia/Shanghai）　｜　案例：TEACHING-CASE-SUIBE-2026　｜　状态版本：v4　｜　教学案例（固定数据，非实时查询）</p>
+<p class="scope">按本案例给定条件计算：含进口税费支出＝计税价格＋关税＋进口增值税；不等于可确认的会计成本。</p>
+<h2>一、结论</h2>
+<ul><li>方案 A（FOB）：含进口税费支出合计 <strong>9,658.11 元</strong>，每件 <strong>96.58 元</strong>。</li></ul>
+
+<h2>二、输入条件</h2>
+<table><thead><tr><th>参数</th><th>方案 A</th><th>来源</th></tr></thead><tbody><tr><th>商品数量（件）</th><td>100 件</td><td class="muted">用户填写</td></tr><tr><th>报价口径</th><td>FOB</td><td class="muted">用户填写</td></tr><tr><th>报价币种</th><td>USD 美元</td><td class="muted">用户填写</td></tr><tr><th>商品单价（美元/件）</th><td>10.00 美元/件</td><td class="muted">用户填写</td></tr><tr><th>国际运费（美元，整批）</th><td>100.00 美元（整批）</td><td class="muted">用户填写</td></tr><tr><th>保险费（美元，整批）</th><td>10.00 美元（整批）</td><td class="muted">用户填写</td></tr><tr><th>汇率（元/美元）</th><td>7.0000 元/美元</td><td class="muted">用户填写</td></tr><tr><th>关税税率</th><td>10.00%</td><td class="muted">用户填写</td></tr><tr><th>进口增值税税率</th><td>13.00%</td><td class="muted">用户填写</td></tr><tr><th>国内其他费用（元）</th><td>0.00 元</td><td class="muted">案例约定</td></tr><tr><th>消费税税率</th><td>0.00%</td><td class="muted">案例约定</td></tr></tbody></table>
+<h2>三、计算公式与代入</h2>
+
+    <section class="block">
+      <h3>方案 A（FOB）</h3>
+      <ol class="trace"><li><span>商品总价</span><code>100 件 × 10.00 美元/件</code><strong>1,000.00 美元</strong></li><li><span>CIF 等值</span><code>1,000.00 + 100.00 + 10.00</code><strong>1,110.00 美元</strong></li><li><span>计税价格</span><code>1,110.00 美元 × 7.0000 元/美元</code><strong>7,770.00 元</strong></li><li><span>关税</span><code>7,770.00 × 10.00%</code><strong>777.00 元</strong></li><li><span>进口增值税</span><code>(7,770.00 + 777.00) × 13.00%</code><strong>1,111.11 元</strong></li><li><span>含进口税费支出合计</span><code>7,770.00 + 777.00 + 1,111.11</code><strong>9,658.11 元</strong></li><li><span>每件对应支出</span><code>9,658.11 ÷ 100 件</code><strong>96.58 元</strong><small>未舍入 96.5811</small></li></ol>
+    </section>
+<h3>舍入规则</h3><ul><li>金额以十进制定点存储；金额保留 2 位小数，汇率保留 4 位小数，税率保留 2 位小数。</li><li>每一步只对输出的金额做一次“四舍五入（half-up，远离零）”，后续步骤使用已舍入金额。</li><li>关税＝计税价格×关税税率，结果保留 2 位；进口增值税＝（计税价格＋关税）×增值税税率，结果保留 2 位。</li><li>合计＝计税价格＋关税＋进口增值税，使用已舍入的分项金额相加，不再二次舍入。</li><li>每件对应支出＝合计÷数量，保留 2 位，仅作展示；不做“每件×数量=合计”的反向校验。</li></ul>
+<h2>四、结果明细</h2>
+<table><thead><tr><th>项目</th><th>方案 A</th></tr></thead><tbody><tr><th>货值 / 报价金额</th><td class="">1,000.00 美元</td></tr><tr><th>国际运费</th><td class="">100.00 美元</td></tr><tr><th>保险费</th><td class="">10.00 美元</td></tr><tr><th>CIF 等值</th><td class="">1,110.00 美元</td></tr><tr><th>计税价格</th><td class="">7,770.00 元</td></tr><tr><th>关税</th><td class="">777.00 元</td></tr><tr><th>进口增值税</th><td class="">1,111.11 元</td></tr><tr><th>含进口税费支出合计</th><td class="strong">9,658.11 元</td></tr><tr><th>每件对应支出</th><td class="">96.58 元</td></tr><tr><th>国内其他费用</th><td class="">0.00 元</td></tr><tr><th>含国内费用合计</th><td class="">9,658.11 元</td></tr></tbody></table>
+
+<h2>五、假设与适用范围</h2><ul><li>计算口径为“含进口税费支出合计”＝计税价格＋关税＋进口增值税；不等于会计成本。（来源：教学案例约定）</li><li>消费税：本案例不涉及，按 0 计。（来源：教学案例约定）</li><li>国内其他费用：本案例暂按 0 计（港杂费、代理费、检验检疫、资金占用等均未计入）。（来源：教学案例约定）</li><li>汇率、关税税率、进口增值税税率均为本案例的教学设定，不代表任何商品或任何时点的现行税率。（来源：教学案例约定）</li><li>本轮不查询实时汇率、商品归类、原产地规则或协定税率；如用于真实业务，需另行核对来源与适用条件。（来源：演示范围声明）</li><li>进口增值税能否抵扣取决于纳税人身份与凭证，本案例只把它计入“支出”，不直接称为可确认的会计成本。（来源：教学案例约定）</li></ul>
+<h2>六、未计入项目</h2><ul><li>消费税（本案例约定不涉及）</li><li>国内其他费用（港杂费、代理费、检验检疫费等，本案例按 0 计）</li><li>资金占用成本、汇兑损益与融资费用</li><li>进口增值税的抵扣影响（本案例只计算支出）</li><li>报关代理、仓储、滞箱、内陆运输等未列明费用</li><li>真实商品归类、原产地与协定税率差异</li></ul>
+<h2>七、来源与依据</h2><ul><li>本案例的数量、报价、运费、保险费、汇率与税率由用户在演示中给定，属于教学设定。</li><li>本轮未查询实时汇率、商品归类、原产地规则或协定税率；不构成真实业务或税务意见。</li><li>计算规则为本演示约定的教学简化公式，明细见“计算公式与代入”。</li></ul>
+<h2>八、复算与一致性</h2>
+<ul><li>方案 A 输入指纹：<code>50cec554c2a9495d5baf73cf237bf1abdc120f7db8764af06ff89892f02e3541</code><br>方案 A 结果指纹：<code>367c789d1a9aaf0cd1df6a34f96558ff3ec0a3da824619b95e1d20a284a00f7d</code></li>
+<li>页面状态版本：v4</li><li>导出时逐方案重算，结果指纹与页面一致（状态版本 v4）。</li><li>所有金额由十进制定点程序计算，不使用模型生成的数值。</li><li>导出内容只包含当前方案，不包含已取消或未完成的草案。</li></ul>
+<footer>由 小贸经贸演示 v1 生成。修改任一参数后请重新计算并重新导出，旧摘要不自动更新。</footer>
+</main></body></html>

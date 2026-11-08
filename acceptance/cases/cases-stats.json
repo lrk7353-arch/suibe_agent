@@ -1,0 +1,33 @@
+{
+  "total": 115,
+  "base": 105,
+  "paraphrase": 10,
+  "by_category": {
+    "办事流程与条件": 15,
+    "时效与适用范围": 16,
+    "歧义与多轮": 18,
+    "经贸解释与工具": 16,
+    "缺失、冲突与干扰": 15,
+    "高频校园事实": 25
+  },
+  "expected_behavior": {
+    "v1.2": {
+      "gap": 60,
+      "clarify": 7,
+      "direct": 22,
+      "partial": 6,
+      "tool": 10
+    },
+    "v1.3": {
+      "direct": 65,
+      "clarify": 9,
+      "gap": 9,
+      "partial": 12,
+      "tool": 10
+    }
+  },
+  "source_docs": {
+    "v12": 11,
+    "v13": 33
+  }
+}

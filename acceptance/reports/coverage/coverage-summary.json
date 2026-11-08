@@ -1,0 +1,54 @@
+{
+  "base_cases": 105,
+  "v12_behavior": {
+    "gap": 60,
+    "clarify": 7,
+    "direct": 22,
+    "partial": 6,
+    "tool": 10
+  },
+  "v13_behavior": {
+    "direct": 65,
+    "clarify": 9,
+    "gap": 9,
+    "partial": 12,
+    "tool": 10
+  },
+  "v12_coverage": {
+    "none": 56,
+    "all": 47,
+    "some": 2
+  },
+  "v13_coverage": {
+    "all": 103,
+    "none": 2
+  },
+  "v13_only_docs": [
+    "doc_06c285f1d164",
+    "doc_21eeabe39eab",
+    "doc_46d55e97e19c",
+    "doc_53c38695da50",
+    "doc_57b834442516",
+    "doc_6db4744d9571",
+    "doc_726102510fd5",
+    "doc_7c906f6e62cd",
+    "doc_8352038d48a1",
+    "doc_8bf2616da693",
+    "doc_8c3c5429cad8",
+    "doc_92780665c69a",
+    "doc_94321d5ec40f",
+    "doc_97d68784bb00",
+    "doc_9920cb6e8a80",
+    "doc_a843cb5ec011",
+    "doc_b49917172269",
+    "doc_b51a4b666148",
+    "doc_bbaf70c1d412",
+    "doc_d8c66846e66b",
+    "doc_defbb1fd810f",
+    "doc_f4b012df0110",
+    "doc_f6c39f9831e6"
+  ],
+  "v12_only_docs": [
+    "doc_6b2fa947262b"
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "recorded_at": "2026-11-08T23:06:06.498108+08:00",
+  "host": {
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "python": "3.14.0",
+    "node": "v24.11.0",
+    "gpu": "NVIDIA GeForce RTX 5060 Ti, 16311 MiB, 3876 MiB, 12175 MiB, 2 %"
+  },
+  "delivery_version": {
+    "app": "xiaomao-suite",
+    "version": "1.2.0",
+    "buildDate": "2026-11-08",
+    "frozen": {
+      "knowledgeBase": "v1.2-reviewed-20261108",
+      "model": "gemma4 / Gemma 4 E2B IT Q4_K_M",
+      "node": "v24.11.0",
+      "python": "3.14.0",
+      "llamaCpp": "b12110 (CUDA 12.4, Windows x64)"
+    },
+    "knowledgeBase": {
+      "version": "v1.2-reviewed-20261108",
+      "documents": 477,
+      "chunks": 1914,
+      "dim": 512,
+      "embeddingModel": "bge-small-zh-v1.5"
+    },
+    "notes": "v1.3 is not part of this frozen delivery; see docs/已知问题.md"
+  },
+  "delivery_config": {
+    "app": "xiaomao-suite",
+    "version": "1.2.0",
+    "buildDate": "2026-11-08",
+    "host": "127.0.0.1",
+    "ports": {
+      "web": 18766,
+      "rag": 18767,
+      "model": 18768
+    },
+    "model": {
+      "id": "gemma4",
+      "name": "Gemma 4 E2B IT Q4_K_M",
+      "file": "models/gemma-4-E2B-it-Q4_K_M.gguf",
+      "sha256": "740185b21d22ceb83a11c3aa62ad5842ef32c70f6096d756bbee85a1e4ec34b8",
+      "sizeBytes": 3106738272,
+      "contextTokens": 8192,
+      "threads": 4,
+      "gpuLayers": "all",
+      "evidenceTokens": 6000,
+      "startupTimeoutSec": 240
+    },
+    "kb": {
+      "version": "v1.2-reviewed-20261108",
+      "release": "data/kb-v12-reviewed",
+      "chunks": 1914,
+      "dim": 512,
+      "documents": 477,
+      "embeddingModel": "models/bge-small-zh-v1.5"
+    },
+    "limits": {
+      "minFreeDiskGB": 8,
+      "minFreeMemoryGB": 8,
+      "ragStartupTimeoutSec": 240,
+      "webStartupTimeoutSec": 60
+    },
+    "cloud": {
+      "apiKeyEnv": "DEEPSEEK_API_KEY",
+      "model": "deepseek-flash",
+      "baseUrl": "https://api.deepseek.com"
+    }
+  },
+  "kb_active": {
+    "version": "v1.2-reviewed-20261108",
+    "release": "data/kb-v12-reviewed",
+    "source": "suibe-kb-handoff-v1.2-20261108/suibe-kb-handoff-v1.2/suibe-kb-v1.2",
+    "academicAvailable": false
+  },
+  "local_model": {
+    "id": "gemma4",
+    "name": "Gemma 4 E2B IT Q4_K_M",
+    "baseUrl": "http://127.0.0.1:18768",
+    "evidenceTokens": 6000,
+    "contextTokens": 8192
+  },
+  "services": {
+    "web_18766": {
+      "status": null,
+      "error": "timed out"
+    },
+    "rag_18767": {
+      "status": null,
+      "error": "timed out"
+    },
+    "model_18768": {
+      "status": null,
+      "error": "timed out"
+    },
+    "observed_model_18765_health": {
+      "status": 200,
+      "body": "{\"status\":\"ok\"}"
+    },
+    "observed_model_18765_models": {
+      "status": 200,
+      "body": "{\"models\":[{\"name\":\"\\\\\\\\wsl$\\\\Ubuntu\\\\home\\\\konglingrui\\\\suibeagent\\\\models\\\\Qwen3-1.7B-Q4_K_M.gguf\",\"model\":\"\\\\\\\\wsl$\\\\Ubuntu\\\\home\\\\konglingrui\\\\suibeagent\\\\models\\\\Qwen3-1.7B-Q4_K_M.gguf\",\"modified_at\":\"\",\"size\":\"\",\"digest\":\"\",\"type\":\"model\",\"description\":\"\",\"tags\":[\"\"],\"capabilities\":[\"completion\"],\"parameters\":\"\",\"details\":{\"parent_model\":\"\",\"format\":\"gguf\",\"family\":\"\",\"families\":[\"\"],\"parameter_size\":\"\",\"quantization_level\":\"\"}}],\"object\":\"list\",\"data\":[{\"id\":\"\\\\\\\\wsl$\\\\Ubuntu\\\\home\\\\konglingrui\\\\suibeagent\\\\models\\\\Qwen3-1.7B-Q4_K_M.gguf\",\"object\":\"model\",\"created\":1794150366,\"owned_by\":\"llamacpp\",\"meta\":{\"vocab_type\":2,\"n_vocab\":151936,\"n_ctx_train\":40960,\"n_embd\":2048,\"n_params\":1720574976,\"size\":1101457408}}]}"
+    }
+  },
+  "files": {
+    "VERSION.json": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\delivery\\src\\VERSION.json",
+      "exists": true,
+      "bytes": 539,
+      "sha256": "ea79086a3b52d3922441507ade14c14f7beb95fccb90e7986c79487afe720990"
+    },
+    "app.config.json": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\delivery\\src\\config\\app.config.json",
+      "exists": true,
+      "bytes": 1000,
+      "sha256": "235355adaef13d360731ac32806a33ab7e9138b5d175ed9876735a1158af5be7"
+    },
+    "kb-active.json": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\data\\kb-active.json",
+      "exists": true,
+      "bytes": 173,
+      "sha256": "e323b246b0912788e2d3a4d078e8dc88e47bd4791c97ab41e7981ca04b0ffd0d"
+    },
+    "local-model.json": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\data\\local-model.json",
+      "exists": true,
+      "bytes": 145,
+      "sha256": "484d6729839f4208b30da92695546dc09a2cd73cb08d53f700e5ab834df892cc"
+    },
+    "v1.2 documents.jsonl": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\data\\kb-v12-reviewed\\documents.jsonl",
+      "exists": true,
+      "bytes": 2931211,
+      "sha256": "f4ab7891899be223e2301951a5cbb51075ad92c28270c66e60610fbd3d366e56"
+    },
+    "v1.2 chunks.jsonl": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\data\\kb-v12-reviewed\\chunks.jsonl",
+      "exists": true,
+      "bytes": 4127846,
+      "sha256": "e87141ab7c54563fe5a2cba2afeec94caf5a2c6f331ef438d64352a9be129ba8"
+    },
+    "v1.2 embeddings.npy": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\data\\kb-v12-reviewed\\embeddings.npy",
+      "exists": true,
+      "bytes": 3920000,
+      "sha256": "9cd567faf226a6d10c8eed0118d37a171e854b2da12e26a4b94d2970cb1a4f0a"
+    },
+    "v1.3 documents.jsonl": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\suibe-kb-handoff-v1.3-20261108\\suibe-kb-v1.3\\clean\\documents.jsonl",
+      "exists": true,
+      "bytes": 4607762,
+      "sha256": "241f0574a74ff86c4fd34f7307e19d923eb1949221e3b49aef34cc64df413063"
+    },
+    "v1.3 chunks.jsonl": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\kb-v13-work\\build\\chunks.jsonl",
+      "exists": true,
+      "bytes": 6851296,
+      "sha256": "bb1922d72c9d853942f9b1e9ace56969a01b85d9f7cc10cc41a22a16428a4fcd"
+    },
+    "v1.3 embeddings.npy": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\kb-v13-work\\build\\embeddings.npy",
+      "exists": true,
+      "bytes": 7944320,
+      "sha256": "71d5558266c183e4de3179b52d4689103d8a8a30c15b3936ba5bfef84d316a05"
+    },
+    "cases.jsonl": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\experiments\\answer-acceptance-v1\\cases\\cases.jsonl",
+      "exists": true,
+      "bytes": 435369,
+      "sha256": "48a2aadbe4fcf183e25dafae93aed8aadeac59f6c4f74b217bc938651057cf01"
+    },
+    "标准答案与证据表.csv": {
+      "path": "Z:\\home\\konglingrui\\suibeagent\\experiments\\answer-acceptance-v1\\cases\\标准答案与证据表.csv",
+      "exists": true,
+      "bytes": 144907,
+      "sha256": "938be0e92b0640299e62ccfb6b4c451c01acaaca40ce66b53d09db5905a81744"
+    }
+  },
+  "candidate_kb": {
+    "version": "v1.3-20261108",
+    "documents": 650,
+    "chunks": 3879,
+    "dim": 512,
+    "delivered": false,
+    "loaded": false,
+    "note": "v1.3 未进入交付包，也未由当前服务加载；仅用于对照检索实验。"
+  }
+}

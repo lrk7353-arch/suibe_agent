@@ -1,0 +1,42 @@
+{
+  "app": "xiaomao-suite",
+  "version": "1.3.0-api",
+  "buildDate": "2026-11-08",
+  "host": "127.0.0.1",
+  "ports": {
+    "web": 18866,
+    "rag": 18867,
+    "model": 18868
+  },
+  "model": {
+    "id": "gemma4",
+    "name": "Gemma 4 E2B IT Q4_K_M",
+    "file": "models/gemma-4-E2B-it-Q4_K_M.gguf",
+    "sha256": "740185b21d22ceb83a11c3aa62ad5842ef32c70f6096d756bbee85a1e4ec34b8",
+    "sizeBytes": 3106738272,
+    "contextTokens": 8192,
+    "threads": 4,
+    "gpuLayers": "all",
+    "evidenceTokens": 6000,
+    "startupTimeoutSec": 240
+  },
+  "kb": {
+    "version": "v1.3-public-sample",
+    "release": "data/kb-v13-reviewed",
+    "chunks": 6,
+    "dim": 512,
+    "documents": 1,
+    "embeddingModel": "models/bge-small-zh-v1.5"
+  },
+  "limits": {
+    "minFreeDiskGB": 8,
+    "minFreeMemoryGB": 8,
+    "ragStartupTimeoutSec": 240,
+    "webStartupTimeoutSec": 60
+  },
+  "cloud": {
+    "apiKeyEnv": "DEEPSEEK_API_KEY",
+    "model": "deepseek-flash",
+    "baseUrl": "https://api.deepseek.com"
+  }
+}

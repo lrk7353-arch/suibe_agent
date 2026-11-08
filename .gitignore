@@ -1,0 +1,12 @@
+**/.env
+**/.env.*
+!**/.env.example
+**/models/
+**/runtime/
+**/.venv*/
+**/tmp/
+**/runs/
+**/__pycache__/
+*.gguf
+*.log
+*.zip

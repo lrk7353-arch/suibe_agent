@@ -1,6 +1,6 @@
 {
   "tier": "human_fact",
-  "reviewedAt": "2026-11-08",
+  "reviewedAt": "2026-11-09",
   "reviewer": "ZCode 本轮人工复核",
   "scope": "仅复核教学案例口径、算术、状态与导出；不核查现实汇率、商品归类、原产地规则或任何商品的现行税率。",
   "items": [
@@ -9,36 +9,68 @@
       "claim": "标准案例人工复算",
       "method": "手算并与 Python Decimal 参考实现逐项对照",
       "detail": "商品总价 100×10＝1,000 美元；CIF 等值 1,000+100+10＝1,110 美元；计税价格 1,110×7＝7,770.00 元；关税 7,770×10%＝777.00 元；进口增值税 (7,770+777)×13%＝1,111.11 元；合计 7,770+777+1,111.11＝9,658.11 元；每件 9,658.11÷100＝96.5811→96.58 元。",
-      "observed": { "taxableValue": "7770.00", "duty": "777.00", "vat": "1111.11", "outlay": "9658.11", "perUnit": "96.58" },
+      "observed": {
+        "taxableValue": "7770.00",
+        "duty": "777.00",
+        "vat": "1111.11",
+        "outlay": "9658.11",
+        "perUnit": "96.58"
+      },
       "result": "PASS",
-      "evidence": ["tests/reference_calc.py", "samples/小贸-进口成本案例-单方案示例.md"]
+      "evidence": [
+        "tests/reference_calc.py",
+        "samples/小贸-进口成本案例-单方案示例.md"
+      ]
     },
     {
       "id": "H02",
       "claim": "CIF 1,080 美元方案与差额",
       "method": "独立公式复算并核对导出文件",
       "detail": "CIF 总价 1,080 美元不叠加运费保险；计税价格 1,080×7＝7,560.00 元；关税 756.00 元；进口增值税 (7,560+756)×13%＝1,081.08 元；合计 9,397.08 元。与 A 差额 9,658.11−9,397.08＝261.03 元，百分比 261.03÷9,658.11＝2.7027%→2.70%。",
-      "observed": { "outlay": "9397.08", "perUnit": "93.97", "difference": "261.03", "percent": "-2.70%" },
+      "observed": {
+        "outlay": "9397.08",
+        "perUnit": "93.97",
+        "difference": "261.03",
+        "percent": "-2.70%"
+      },
       "result": "PASS",
-      "evidence": ["samples/小贸-进口成本案例-示例.md", "runs/latest-cases.json"]
+      "evidence": [
+        "samples/小贸-进口成本案例-示例.md",
+        "runs/latest-cases.json"
+      ]
     },
     {
       "id": "H03",
       "claim": "汇率 7.20 的敏感性",
       "method": "独立公式复算并核对试算卡",
       "detail": "计税价格 1,110×7.2＝7,992.00 元；关税 799.20 元；进口增值税 (7,992+799.20)×13%＝1,142.856→1,142.86 元；合计 9,934.06 元；较 7.00 增加 275.95 元，+2.86%。试算不改变原方案，原方案仍按 7.00 计算。",
-      "observed": { "outlay": "9934.06", "delta": "275.95", "deltaPercent": "+2.86%", "baseUnchanged": "9658.11" },
+      "observed": {
+        "outlay": "9934.06",
+        "delta": "275.95",
+        "deltaPercent": "+2.86%",
+        "baseUnchanged": "9658.11"
+      },
       "result": "PASS",
-      "evidence": ["runs/latest-core-flow.json", "tests/reference_calc.py"]
+      "evidence": [
+        "runs/latest-core-flow.json",
+        "tests/reference_calc.py"
+      ]
     },
     {
       "id": "H04",
       "claim": "中间舍入规则清晰且可复算",
       "method": "构造 0.05 元小额案例，比较分步舍入与未舍入结果",
       "detail": "商品总价 0.05 美元，汇率 1；关税 0.05×10%＝0.005→0.01 元；进口增值税 (0.05+0.01)×13%＝0.0078→0.01 元；合计 0.07 元。若先算未舍入总额 0.06215 再舍入会得到 0.06 元，与案例约定的分步规则不同；实现与导出均显示每步未舍入值。",
-      "observed": { "outlay": "0.07", "dutyRaw": "0.005000", "vatRaw": "0.007800" },
+      "observed": {
+        "outlay": "0.07",
+        "dutyRaw": "0.005000",
+        "vatRaw": "0.007800"
+      },
       "result": "PASS",
-      "evidence": ["tests/cases/trade-cases.json#A07", "tests/reference_calc.py"]
+      "evidence": [
+        "tests/cases/trade-cases.json#A07",
+        "tests/reference_calc.py"
+      ]
     },
     {
       "id": "H05",
@@ -47,7 +79,10 @@
       "detail": "回答与导出均写明“含进口税费支出合计＝计税价格＋关税＋进口增值税，不等于可确认的会计成本”；并单独提示进口增值税能否抵扣需另行判断。未发现把支出合计直接称为会计成本。",
       "observed": "多轮回答、结果卡 scopeNote、导出“假设与适用范围”均包含该声明",
       "result": "PASS",
-      "evidence": ["samples/小贸-进口成本案例-示例.md", "runs/latest-cases.json#F02"]
+      "evidence": [
+        "samples/小贸-进口成本案例-示例.md",
+        "runs/latest-cases.json#F02"
+      ]
     },
     {
       "id": "H06",
@@ -56,61 +91,120 @@
       "detail": "导出明确写“汇率、关税税率、进口增值税税率均为本案例的教学设定，不代表任何商品或任何时点的现行税率”，并声明不查询实时汇率、商品归类或协定税率；未出现“现行税率为/当前税率为/实际税率为”等断言。",
       "observed": "包含教学设定与范围声明；未出现禁止措辞",
       "result": "PASS",
-      "evidence": ["samples/小贸-进口成本案例-示例.md", "runs/latest-cases.json#F05"]
+      "evidence": [
+        "samples/小贸-进口成本案例-示例.md",
+        "runs/latest-cases.json#F05"
+      ]
     },
     {
       "id": "H07",
       "claim": "FOB/CIF 费用不重复计入",
       "method": "检查工具 trace、结果明细与对比卡",
       "detail": "FOB 方案在 CIF 等值中加运费 100 与保险 10；CIF 方案 CIF 等值等于总价 1,080，不再加运费保险，结果明细显示“已含在 CIF 报价”。CIF 之外单列运费或保险时程序拒绝计算并保留原方案。",
-      "observed": { "A": "1110.00 USD", "B": "1080.00 USD", "rejection": "included_cost_repeated" },
+      "observed": {
+        "A": "1110.00 USD",
+        "B": "1080.00 USD",
+        "rejection": "included_cost_repeated"
+      },
       "result": "PASS",
-      "evidence": ["tests/cases/trade-cases.json#D01/#D02/#D06", "samples/小贸-进口成本案例-示例.md"]
+      "evidence": [
+        "tests/cases/trade-cases.json#D01/#D02/#D06",
+        "samples/小贸-进口成本案例-示例.md"
+      ]
     },
     {
       "id": "H08",
       "claim": "单价与整批费用区分",
       "method": "用“每件运费 1 美元、数量 100 件”核对折算",
       "detail": "程序将每件运费 1.00 美元×100 件折算为整批 100.00 美元，并在条件卡标注“由程序换算”与换算公式；最终结果与整批运费 100 美元的标准案例一致（9,658.11 元）。",
-      "observed": { "freight": "100.00", "outlay": "9658.11" },
+      "observed": {
+        "freight": "100.00",
+        "outlay": "9658.11"
+      },
       "result": "PASS",
-      "evidence": ["tests/cases/trade-cases.json#D05", "runs/latest-cases.json"]
+      "evidence": [
+        "tests/cases/trade-cases.json#D05",
+        "runs/latest-cases.json"
+      ]
     },
     {
       "id": "H09",
       "claim": "导出与页面当前方案一致",
       "method": "比对导出指纹、方案数量与金额；对结果字段注入篡改后重新导出",
       "detail": "导出内容 SHA-256 与返回校验码一致；注入被篡改的支出后，导出前逐方案重算并替换，导出仍为 9,658.11 / 9,397.08；两个方案的导出包含 A、B 两个方案而非只含当前活动方案。",
-      "observed": { "checksumValid": true, "scenarios": ["A", "B"], "tamperRecovered": true },
+      "observed": {
+        "checksumValid": true,
+        "scenarios": [
+          "A",
+          "B"
+        ],
+        "tamperRecovered": true
+      },
       "result": "PASS",
-      "evidence": ["tests/cases/trade-cases.json#E01/#E04/#F06", "samples/README.md"]
+      "evidence": [
+        "tests/cases/trade-cases.json#E01/#E04/#F06",
+        "samples/README.md"
+      ]
     },
     {
       "id": "H10",
       "claim": "缺参不静默补默认值，失败保留参数",
       "method": "逐条检查缺参、负数量、非数字、汇率 0、模型超时用例",
       "detail": "缺参时只追问缺失项；示例值一键补齐会把来源标为“示例值”；负数量、非数字运费、汇率 0 均拒绝计算并保留其他已填参数；模型超时返回“没有收到模型响应”，状态不变，重试后计算成功。",
-      "observed": { "exampleSource": "example", "invalidPreserved": true, "modelFailurePreserved": true },
+      "observed": {
+        "exampleSource": "example",
+        "invalidPreserved": true,
+        "modelFailurePreserved": true
+      },
       "result": "PASS",
-      "evidence": ["tests/cases/trade-cases.json#A03/#B01-#B08/#E02", "runs/latest-cases.json"]
+      "evidence": [
+        "tests/cases/trade-cases.json#A03/#B01-#B08/#E02",
+        "runs/latest-cases.json"
+      ]
     },
     {
       "id": "H11",
       "claim": "方案间状态隔离与校园暂停恢复",
       "method": "修改方案 B 汇率后核对 A；校园问题后恢复案例",
       "detail": "修改活动方案 B 的汇率后，A 仍为 7.0000 / 9,658.11；校园问题只把阶段置为 paused，恢复后 A 的结果与参数不变。",
-      "observed": { "A": "9658.11", "B": "9665.57", "pausedPreserved": true },
+      "observed": {
+        "A": "9658.11",
+        "B": "9665.57",
+        "pausedPreserved": true
+      },
       "result": "PASS",
-      "evidence": ["tests/cases/trade-cases.json#C05/#C08", "runs/latest-cases.json"]
+      "evidence": [
+        "tests/cases/trade-cases.json#C05/#C08",
+        "runs/latest-cases.json"
+      ]
     },
     {
       "id": "H12",
-      "claim": "真实模型层的生成质量",
-      "method": "未接入真实模型，无法人工复核模型生成文本",
-      "detail": "本轮按协作边界使用模拟模型响应，未设置 TRADE_DEMO_MODEL_URL。工具与状态层通过不等于真实模型接入后通过；需在接入后单独运行 tests/run-model-integration.cjs 并人工复核措辞。",
-      "observed": "NOT_RUN",
+      "claim": "真实模型在固定主流程中的参数提案与解释",
+      "method": "用 DeepSeek deepseek-flash 实跑 6 轮主流程，并补跑“假设汇率/修改汇率/CIF 继承”4 轮对照",
+      "detail": "主流程 6/6、对照 7/7，合计 13/13 通过。模型正确区分“如果汇率涨到 7.2”（试算，不改原方案）与“把汇率改成 7.2”（提交修改）；CIF 方案继承已提交汇率，且未重复写入运费/保险费。金额仍由确定性工具计算，页面解析模式显示“DeepSeek deepseek-flash（真实模型）”。首次调用曾因余额不足返回 HTTP 402，充值后复测通过。",
+      "observed": {
+        "mainChecks": "6/6",
+        "modifyChecks": "7/7",
+        "total": "13/13",
+        "model": "deepseek-flash"
+      },
+      "result": "PASS",
+      "evidence": [
+        "runs/latest-model-integration.json"
+      ]
+    },
+    {
+      "id": "H13",
+      "claim": "真实模型对开放表达的鲁棒性",
+      "method": "仅覆盖固定脚本与少量对照，未做开放表达集",
+      "detail": "本轮只验证固定教学案例与“假设/修改/CIF”对照；模型对自由改写、错别字、口语省略、拒答与长上下文的稳定性未做统计，不能据此宣称通用可用。",
+      "observed": "NOT_COVERED",
       "result": "NOT_COVERED",
-      "evidence": ["runs/latest-model-integration.json"]
+      "evidence": [
+        "runs/latest-model-integration.json",
+        "docs/测试结果-2026-11-09.md"
+      ]
     }
   ],
   "notCovered": [

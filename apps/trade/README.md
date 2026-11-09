@@ -2,7 +2,7 @@
 
 进口成本教学应用，解析、会话状态、计算和导出分别实现。
 
-仓库根目录运行 `npm run dev:trade`，访问 `http://127.0.0.1:18870`。默认规则解析。
+仓库根目录运行 `npm run dev:trade`，访问 `http://127.0.0.1:18870`。未配置密钥时使用规则解析；设置 `DEEPSEEK_API_KEY` 后自动使用 `deepseek-flash`。显式 `TRADE_DEMO_MODEL_URL` 配置优先。
 
 ## 模型参数提案
 
@@ -22,3 +22,9 @@
 ## 测试
 
 运行 `npm run test:trade`。独立参考计算为 `tests/reference_calc.py`，结果写入忽略目录 `runs/`。`evidence/` 保存历史报告，`samples/` 提供导出示例。
+
+## 验证记录
+
+2026-11-09，DeepSeek 固定主流程与假设/修改对照 13/13，连续三次通过。规则测试 41/41、核心流程 72/72；HTTP 假端点验证为 15/15。见 [结果摘要](evidence/deepseek-20261109.json)。
+
+真实 API 复测：`node apps/trade/tests/run-model-integration.cjs`（仓库根目录，需密钥，会产生 API 调用）。

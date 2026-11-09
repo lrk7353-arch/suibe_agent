@@ -19,11 +19,21 @@ function sha256(text) { return crypto.createHash('sha256').update(text, 'utf8').
 
 function loadReference() {
   const python = process.env.PYTHON || 'python';
-  const res = spawnSync(python, ['-I', REFERENCE], { encoding: 'utf8', timeout: 30000 });
-  if (res.status !== 0) {
-    throw new Error(`独立参考计算失败：${res.stderr || res.error?.message || 'unknown'}`);
+  let last = null;
+  for (let attempt = 1; attempt <= 2; attempt += 1) {
+    const res = spawnSync(python, ['-I', path.join('tests', 'reference_calc.py')], { cwd: ROOT, encoding: 'utf8', timeout: 30000 });
+    if (res.status === 0) {
+      const parsed = JSON.parse(res.stdout);
+      parsed.__source = 'python-decimal';
+      return parsed;
+    }
+    last = res;
   }
-  return JSON.parse(res.stdout);
+  // 网络盘/杀毒软件偶尔让子进程 Python 返回 EINVAL；回退到同一脚本生成的固定参考值，并在报告中标注来源
+  const cached = JSON.parse(fs.readFileSync(path.join(__dirname, 'reference_expected.json'), 'utf8'));
+  cached.__source = 'cached-from-python-decimal';
+  cached.__error = last?.stderr ? String(last.stderr).slice(0, 200) : 'python spawn failed';
+  return cached;
 }
 
 function makeModel(failTurns, turn) {
@@ -332,7 +342,7 @@ async function main() {
   lines.push('');
   lines.push(`生成时间：${new Date().toLocaleString('zh-CN', { timeZone: 'Asia/Shanghai', hour12: false })}（Asia/Shanghai）`);
   lines.push(`用例文件：\`${path.relative(ROOT, CASES_PATH)}\``);
-  lines.push(`独立参考：\`${path.relative(ROOT, REFERENCE)}\`（Python Decimal，与待测实现分离）`);
+  lines.push(`独立参考：\`${path.relative(ROOT, REFERENCE)}\`（Python Decimal，与待测实现分离；来源：${reference.__source || 'python-decimal'}）`);
   lines.push('');
   lines.push(`**总计 ${summary.total} 条；通过 ${summary.passed} 条；失败 ${summary.failed} 条；否决 ${summary.vetoCount} 条。**`);
   lines.push('');

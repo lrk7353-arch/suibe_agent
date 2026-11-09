@@ -1,0 +1,41 @@
+{
+  "source": "experiments/trade-demo-v1",
+  "date": "2026-11-09",
+  "model": "deepseek-flash",
+  "status": "PASS",
+  "checks": {
+    "total": 13,
+    "passed": 13,
+    "failed": 0
+  },
+  "stability": [
+    {
+      "file": "model-stability-1.json",
+      "status": "PASS",
+      "checks": {
+        "total": 13,
+        "passed": 13,
+        "failed": 0
+      }
+    },
+    {
+      "file": "model-stability-2.json",
+      "status": "PASS",
+      "checks": {
+        "total": 13,
+        "passed": 13,
+        "failed": 0
+      }
+    },
+    {
+      "file": "model-stability-3.json",
+      "status": "PASS",
+      "checks": {
+        "total": 13,
+        "passed": 13,
+        "failed": 0
+      }
+    }
+  ],
+  "scope": "Fixed main flow and hypothetical versus committed FX changes; not open-ended language coverage"
+}

@@ -131,7 +131,9 @@ function createServer({ port = 18866, model = null, now = () => Date.now() } = {
             version: C.DEMO_VERSION,
             port,
             uptimeSec: Math.round((Date.now() - startedAt) / 1000),
-            model: model ? { mode: 'http', name: model.name, note: '真实模型只负责参数提案，金额由确定性工具计算' } : { mode: 'simulated', name: 'rules-v1', note: '离线规则抽取，可复现' },
+            model: model
+              ? { mode: model.mode || 'http', provider: model.provider || 'http', name: model.name, model: model.model || null, note: '真实模型只负责参数提案，金额由确定性工具计算' }
+              : { mode: 'simulated', provider: 'simulated', name: 'rules-v1', note: '离线规则抽取，可复现' },
             cases: readCasesSummary(),
             teachingCase: { caseId: C.CASE_ID, currency: 'USD', note: '固定教学数据，非实时查询' }
           });
@@ -221,7 +223,9 @@ function parseArgs(argv) {
 if (require.main === module) {
   ensureDirs();
   const { port } = parseArgs(process.argv.slice(2));
-  const model = fromEnv();
+  const useRealModel = process.env.TRADE_DEMO_USE_REAL_MODEL === '1';
+  const model = fromEnv(process.env, { allowDeepSeek: useRealModel });
+  if (!model && process.env.DEEPSEEK_API_KEY) console.log('检测到 DEEPSEEK_API_KEY；当前为模拟模式。设置 TRADE_DEMO_USE_REAL_MODEL=1 可启用真实模型（需可用余额）。');
   const server = createServer({ port, model });
   server.on('error', err => {
     if (err.code === 'EADDRINUSE') {
@@ -234,7 +238,7 @@ if (require.main === module) {
   server.listen(port, '127.0.0.1', () => {
     try { fs.writeFileSync(path.join(RUNS_DIR, `server-${port}.pid`), String(process.pid), 'utf8'); } catch { /* 忽略 */ }
     console.log(`小贸经贸演示已启动：http://127.0.0.1:${port}`);
-    console.log(`模型：${model ? model.name + '（真实模型参数提案）' : '模拟模型 rules-v1（离线可复现）'}`);
+    console.log(`模型：${model ? model.name + '（' + (model.mode === 'deepseek' ? 'DeepSeek 真实模型' : '真实模型') + '，仅参数提案）' : '模拟模型 rules-v1（离线可复现）'}`);
     console.log(`固定教学案例：${C.CASE_ID}`);
     console.log('按 Ctrl+C 停止。');
   });

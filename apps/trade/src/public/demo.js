@@ -76,7 +76,9 @@ function appendBot(data) {
     wrap.append(detail);
   }
   const tools = [...new Set((data.toolCalls || []).map(t => t.name))];
-  wrap.append(el('div', 'meta-line', `${data.mode || '本地处理'}　｜　状态 v${data.state?.version ?? '—'}`));
+  const parser = data.parser || { mode: 'simulated', name: 'rules-v1' };
+  const parserLabel = parser.mode === 'simulated' ? `${parser.name}（模拟）` : `${parser.name}（真实模型）`;
+  wrap.append(el('div', 'meta-line', `解析：${parserLabel}　｜　${data.mode || '本地处理'}　｜　状态 v${data.state?.version ?? '—'}`));
   if (tools.length) wrap.lastChild.title = `本次执行：${tools.join(' · ')}`;
   if (data.cards?.learning?.prompt) {
     const thinking = el('div', 'thinking');
@@ -467,8 +469,13 @@ function comparisonCard(comparison) {
   card.append(banner);
   const notes = el('div');
   notes.append(el('p', 'basis-note', comparison.basisNote));
+  const baselineLabel = comparison.scenarios.find(s => s.id === comparison.baselineId)?.label || '基准方案';
   for (const d of comparison.differences) {
-    notes.append(el('p', 'basis-note', `${d.label} 相对基准：${d.diffText}，每件 ${d.perUnitDiffText}。`));
+    if (d.equal) notes.append(el('p', 'basis-note', `${d.label} 与${baselineLabel} 支出相同。`));
+    else {
+      const dir = d.diffFromBaseline.startsWith('-') ? '少' : '多';
+      notes.append(el('p', 'basis-note', `${d.label} 比${baselineLabel} ${dir} ${d.diffText.replace(/^[+-]/, '')}（${d.diffPercentText}），每件${dir} ${d.perUnitDiffText.replace(/^[+-]/, '')}。`));
+    }
   }
   card.append(notes);
   return card;
@@ -744,10 +751,13 @@ function init() {
   $('levelLearn').addEventListener('click', () => setLevel('learn'));
   fetch('/api/health').then(r => r.json()).then(data => {
     const conn = $('conn');
-    const mode = data.model?.mode === 'http' ? `真实模型 · ${data.model.name}` : '离线可复现 · 模拟模型';
+    const real = data.model?.mode && data.model.mode !== 'simulated';
+    const mode = real ? `真实模型 · ${data.model.name}` : '离线可复现 · 模拟模型';
     conn.textContent = mode;
     conn.classList.add('ok');
-    if (data.cases?.total) conn.title = `经贸专项用例 ${data.cases.total} 条`;
+    conn.title = real
+      ? '真实模型只负责参数提案；金额由确定性工具计算，调用是否成功以服务端记录为准'
+      : `离线规则解析；经贸专项用例 ${data.cases?.total || 0} 条`;
   }).catch(() => {
     const conn = $('conn');
     conn.textContent = '服务未连接';

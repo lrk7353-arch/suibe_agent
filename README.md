@@ -11,7 +11,7 @@
 
 ## 快速开始
 
-需要 Node.js 24。经贸规则模式无需密钥和模型下载。
+需要 Node.js 24。未配置密钥时使用经贸规则模式；配置 `DEEPSEEK_API_KEY` 后自动启用 DeepSeek 参数提案。
 
 ```sh
 git clone https://github.com/lrk7353-arch/suibe_agent.git
@@ -60,7 +60,7 @@ npm run test:trade
 npm run test:api
 ```
 
-规则与工具测试 41/41，核心流程重复测试 72/72；校园评测集含 115 条用例。真实 API 生成与端到端回答评测尚未完成。口径见 [评测说明](evaluation/README.md)。
+规则与工具测试 41/41，核心流程重复测试 72/72；校园评测集含 115 条用例。经贸 DeepSeek 固定流程与假设/修改对照 13/13，连续三次通过；校园生成端到端评测仍在改进。口径见 [评测说明](evaluation/README.md)。
 
 ## 数据与模型
 

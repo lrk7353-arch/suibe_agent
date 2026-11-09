@@ -102,12 +102,91 @@ function toolCall(name, inputSummary, output, extra = {}) {
 }
 
 async function propose(model, text, state) {
-  if (!model) return { proposal: P.extractTradeProposal(text, state), modelMode: 'simulated' };
+  if (!model) return { proposal: P.extractTradeProposal(text, state), modelMode: 'simulated', modelName: 'rules-v1' };
   let raw;
   if (typeof model.propose === 'function') raw = await model.propose({ text, state });
   else if (typeof model === 'function') raw = await model({ text, state });
-  else return { proposal: P.extractTradeProposal(text, state), modelMode: 'simulated' };
-  return { proposal: raw, modelMode: model.name || 'model' };
+  else return { proposal: P.extractTradeProposal(text, state), modelMode: 'simulated', modelName: 'rules-v1' };
+  return { proposal: raw, modelMode: model.mode || 'http', modelName: model.name || 'model' };
+}
+
+
+const FIELD_ALIASES = {
+  qty: 'quantity',
+  amount: 'quantity',
+  unit_price: 'unitPrice',
+  total_price: 'totalPrice',
+  price_term: 'priceTerm',
+  trade_term: 'priceTerm',
+  incoterm: 'priceTerm',
+  exchange_rate: 'fx',
+  fx_rate: 'fx',
+  duty_rate: 'dutyRate',
+  tariff_rate: 'dutyRate',
+  vat_rate: 'vatRate',
+  import_vat_rate: 'vatRate',
+  domestic_fees: 'domesticFees',
+  excise_rate: 'exciseRate',
+  freight_cost: 'freight',
+  insurance_fee: 'insurance'
+};
+const INTENT_ALIASES = {
+  sensitivity_analysis: 'sensitivity',
+  compare_scenarios: 'compare',
+  new_quote: 'new_scenario',
+  new_supplier: 'new_scenario',
+  export_summary: 'export',
+  explain_result: 'explain',
+  resume_case: 'resume',
+  cancel_case: 'cancel',
+  restore_exchange_rate: 'restore_fx'
+};
+const NUMERIC_FIELDS = new Set(['quantity', 'unitPrice', 'totalPrice', 'freight', 'insurance', 'fx', 'dutyRate', 'vatRate', 'domesticFees', 'exciseRate']);
+
+function normalizeSlotValue(field, raw, slot) {
+  let v = raw;
+  if (typeof v === 'number') v = String(v);
+  if (typeof v !== 'string') return raw;
+  v = v
+    .replace(/[０-９]/g, ch => String.fromCharCode(ch.charCodeAt(0) - 0xfee0))
+    .replace(/[％]/g, '%')
+    .replace(/[，]/g, ',')
+    .trim();
+  if (field === 'priceTerm') {
+    const m = v.toUpperCase().match(/\b(FOB|CFR|CIF|C&F|CNF)\b/);
+    if (m) return m[1] === 'C&F' || m[1] === 'CNF' ? 'CFR' : m[1];
+    return v;
+  }
+  if (field === 'currency') {
+    const map = { '美元': 'USD', '美金': 'USD', USD: 'USD', '欧元': 'EUR', EUR: 'EUR', '日元': 'JPY', '日圆': 'JPY', JPY: 'JPY', '港币': 'HKD', '港元': 'HKD', HKD: 'HKD', '英镑': 'GBP', GBP: 'GBP', '人民币': 'CNY', CNY: 'CNY', RMB: 'CNY' };
+    return map[v] || v.toUpperCase();
+  }
+  if (field === 'freight' || field === 'insurance') {
+    const basis = String(slot.basis || '');
+    if (/每件|单件|每个|each|per[_ ]?unit/i.test(basis)) slot.basis = 'per_unit';
+    else if (/整批|总|lot|total/i.test(basis)) slot.basis = 'lot';
+  }
+  if (NUMERIC_FIELDS.has(field)) {
+    v = v
+      .replace(/百分之/g, '')
+      .replace(/%|个点|percent/gi, '')
+      .replace(/美元|美金|欧元|日元|日圆|港币|港元|英镑|人民币|USD|EUR|JPY|HKD|GBP|CNY/gi, '')
+      .replace(/每件|单件|整批|件|个|台|套|箱|吨|千克|公斤/g, '')
+      .replace(/[元\s]/g, '')
+      .replace(/,/g, '');
+    // 模型有时把百分数写成小数（10% → 0.1）；用原句中的百分数校对后再换算
+    if (['dutyRate', 'vatRate', 'exciseRate'].includes(field)) {
+      const numeric = Number(v);
+      const quote = String(slot.quote || '');
+      const m = quote.match(/(\d+(?:\.\d+)?)\s*[%％]/);
+      if (Number.isFinite(numeric) && numeric > 0 && numeric < 1 && m) {
+        const quoted = Number(m[1]);
+        if (Math.abs(numeric * 100 - quoted) < 0.001) return String(numeric * 100);
+      }
+    }
+    return v;
+  }
+  return v;
 }
 
 function normalizeProposal(proposal) {
@@ -115,22 +194,46 @@ function normalizeProposal(proposal) {
     return { intent: 'invalid', slots: [], errors: [{ field: null, code: 'invalid_proposal', message: '模型返回的参数结构无法识别。' }], flags: {}, notes: [], model: {} };
   }
   const slots = Array.isArray(proposal.slots) ? proposal.slots.filter(s => s && typeof s === 'object' && typeof s.field === 'string' && (typeof s.value === 'string' || typeof s.value === 'number')) : [];
+  for (const slot of slots) {
+    slot.field = FIELD_ALIASES[slot.field] || slot.field;
+    slot.value = normalizeSlotValue(slot.field, slot.value, slot);
+  }
   const dropped = Array.isArray(proposal.slots) ? proposal.slots.length - slots.length : 0;
   const errors = Array.isArray(proposal.errors) ? proposal.errors : [];
   if (dropped > 0) errors.push({ field: null, code: 'invalid_slot_shape', message: `有 ${dropped} 个参数提案的格式不合法，已拒绝执行。` });
   const knownIntents = ['calculate', 'update', 'new_scenario', 'compare', 'sensitivity', 'export', 'explain', 'resume', 'cancel', 'restore_fx', 'campus', 'unknown', 'invalid'];
-  const intent = knownIntents.includes(proposal.intent) ? proposal.intent : 'invalid';
+  const requestedIntent = INTENT_ALIASES[proposal.intent] || proposal.intent;
+  const intent = knownIntents.includes(requestedIntent) ? requestedIntent : 'invalid';
   if (intent === 'invalid') errors.push({ field: null, code: 'invalid_intent', message: '模型给出的意图不在允许范围内，已拒绝执行。' });
   return {
     intent,
     slots,
-    term: proposal.term || null,
+    term: normalizeSlotValue('priceTerm', proposal.term || '', {}) || null,
     flags: proposal.flags || {},
     errors,
     notes: Array.isArray(proposal.notes) ? proposal.notes : [],
     model: proposal.model || {},
     text: proposal.text || ''
   };
+}
+
+
+function guardIntent(intent, text) {
+  const t = String(text || '');
+  const NEW_SUPPLIER = /另一个供应商|另一家|第二个供应商|新供应商|再报一个|另一个方案|换个供应商/;
+  if (intent === 'new_scenario' && !NEW_SUPPLIER.test(t)) return 'calculate';
+  if (/导出|摘要|整理成一份|汇总|生成(?:一份)?(?:案例)?(?:报告|摘要)/.test(t)) return 'export';
+  if (/(?:恢复|还原|回到).*(?:原来|之前|先前|原).*汇率|汇率.*(?:恢复|还原)/.test(t)) return 'restore_fx';
+  if (/^(取消|不算了|结束计算|清空|重来)[。！!.]*$/.test(t.trim()) || /取消(?:这次|刚才)?(?:计算|案例)/.test(t)) return 'cancel';
+  if (/继续(?:刚才|之前|上面)?的?(?:进口|经贸|案例|计算)|回到(?:刚才|之前)?的?(?:进口|案例)|接着算/.test(t)) return 'resume';
+  if (NEW_SUPPLIER.test(t)) return 'new_scenario';
+  if (/(?:把)?汇率\s*(?:改成|改为|调到|调整为|设成)/.test(t) && !/(?:如果|假如|若)/.test(t)) return 'update';
+  if (/(?:如果|假如|若).*汇率|汇率.*(?:涨|跌|升|降|变化|变动|影响|敏感)/.test(t)) return 'sensitivity';
+  if (/哪个.*(?:低|高|便宜|划算)|比较|对比|差额|差异/.test(t)) return 'compare';
+  if (/为什么|怎么算|怎么得出|依据|公式|明细|解释/.test(t)) return 'explain';
+  if (/关税|增值税|汇率|运费|保险|单价|总价|成本/.test(t) && /[0-9]/.test(t)) return 'calculate';
+  if (P.isCampus(t)) return 'campus';
+  return intent;
 }
 
 function resolvePendingFxTarget(state, text) {
@@ -219,6 +322,7 @@ function finalize(state, payload, now) {
   };
   return {
     ...payload,
+    parser: state.lastParser || { mode: 'simulated', name: 'rules-v1' },
     state,
     cards,
     updatedAt: new Date(now).toISOString()
@@ -277,14 +381,24 @@ async function handleTurn({ text, state: incoming, sessionId = 'local', model = 
 
   // 1) 模型（或模拟模型）给出参数提案。失败时保留用户状态。
   let proposal;
-  let modelMode = 'simulated';
+  let modelMode = model ? (model.mode || 'http') : 'simulated';
+  let modelName = model ? (model.name || 'model') : 'rules-v1';
+  state.lastParser = { mode: modelMode, name: modelName, provider: model?.provider || (model ? 'http' : 'simulated') };
   try {
     const proposed = await propose(model, rawText, state);
     proposal = normalizeProposal(proposed.proposal);
+    const guardedIntent = guardIntent(proposal.intent, rawText);
+    if (guardedIntent !== proposal.intent && proposal.intent === 'invalid') {
+      proposal.errors = proposal.errors.filter(e => e.code !== 'invalid_intent');
+    }
+    if (guardedIntent !== proposal.intent) steps.push({ step: 'intent_guard', from: proposal.intent, to: guardedIntent });
+    proposal.intent = guardedIntent;
     modelMode = proposed.modelMode;
-    steps.push({ step: 'model_proposal', provider: modelMode, intent: proposal.intent, slots: proposal.slots.map(s => ({ field: s.field, value: s.value, basis: s.basis || 'lot' })), errors: proposal.errors.map(e => e.code) });
+    modelName = proposed.modelName;
+    state.lastParser = { mode: modelMode, name: modelName, provider: model?.provider || (model ? 'http' : 'simulated') };
+    steps.push({ step: 'model_proposal', provider: modelMode, model: modelName, intent: proposal.intent, slots: proposal.slots.map(s => ({ field: s.field, value: s.value, basis: s.basis || 'lot' })), errors: proposal.errors.map(e => e.code) });
   } catch (err) {
-    steps.push({ step: 'model_error', code: err?.code || 'model_unavailable', message: String(err?.message || err).slice(0, 200) });
+    steps.push({ step: 'model_error', code: err?.code || 'model_unavailable', message: String(err?.message || err).slice(0, 200), providerStatus: err?.providerStatus || null, requestId: err?.requestId || null });
     return finalize(state, {
       turnId, sessionId,
       answer: '这次没有收到模型响应，所以没有改动任何参数。你已填写的条件都保留着；可以直接重试，或改用“填入示例值”继续演示。',
@@ -294,7 +408,7 @@ async function handleTurn({ text, state: incoming, sessionId = 'local', model = 
       toolCalls,
       mode: '模型不可用 · 状态已保留',
       phase: state.phase,
-      error: { code: 'model_unavailable', message: String(err?.message || err) },
+      error: { code: 'model_unavailable', message: String(err?.message || err), providerStatus: err?.providerStatus || null, requestId: err?.requestId || null },
       audit: { steps, durationMs: Number(process.hrtime.bigint() - t0) / 1e6, beforeVersion, afterVersion: state.version }
     }, now);
   }
@@ -524,7 +638,8 @@ async function handleTurn({ text, state: incoming, sessionId = 'local', model = 
   if (proposal.intent === 'new_scenario') {
     const source = S.activeScenario(state);
     const id = S.nextScenarioId(state);
-    const term = proposal.term || null;
+    const termSlot = proposal.slots.find(s => s.field === 'priceTerm');
+    const term = proposal.term || termSlot?.value || null;
     const scenario = S.createScenario(state, {
       id,
       label: `方案 ${id}`,
@@ -772,7 +887,7 @@ async function handleTurn({ text, state: incoming, sessionId = 'local', model = 
     detail: N.resultDetail(scenario, r),
     pet: { mood: 'cheer', text: '计算完成' },
     actions: N.defaultActions(state), toolCalls,
-    mode: '模拟模型 + 确定性工具', phase: state.phase,
+    mode: modelMode === 'simulated' ? '模拟解析 + 确定性工具' : '真实模型解析 + 确定性工具', phase: state.phase,
     audit: { steps, durationMs: Number(process.hrtime.bigint() - t0) / 1e6, beforeVersion, afterVersion: state.version }
   }, now);
 }
